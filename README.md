@@ -1,6 +1,6 @@
 
 The Long Dark - Snowfox companion mod - v0.9.0 by Digitalzombie
-===============================================================
+==================================
 
 How to install:
 ===============
@@ -16,8 +16,8 @@ https://github.com/zeobviouslyfakeacc/ModSettings/releases/latest
 
 4. Start the game! 
 
-=============================================
-=============================================
+==================================
+==================================
 
 How to use:
 ===========
@@ -35,8 +35,8 @@ Useful if fox gets stuck or you lost it somewhere.
 5. Order to follow/goto target by pressing the "Follow Target / Goto Target" button. 
 Hold key down to display crosshair, release to issue command to fox
 
-=============================================
-=============================================
+==================================
+==================================
 
 BUGS MAY BE EXPECTED!!!
 =======================
@@ -47,8 +47,8 @@ https://www.youtube.com/channel/UCYRu_uDOzozbXIXKGrznHxQ
 Or on the TLD reddit:
 https://www.reddit.com/r/thelongdark/
 
-=============================================
-=============================================
+==================================
+==================================
 
 Changelog:
 ==========
