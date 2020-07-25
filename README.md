@@ -38,7 +38,7 @@ Hold key down to display crosshair, release to issue command to fox
 ==================================
 ==================================
 
-BUGS MAY BE EXPECTED!!!
+BUGS ARE TO BE EXPECTED!!!
 =======================
 
 Keep yourself up to date on the progress on:
