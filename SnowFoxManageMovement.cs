@@ -12,8 +12,16 @@ namespace FoxCompanion
         {
             if (FoxVars.foxShouldFollowSomething == true && FoxVars.foxShouldFollowPlayer == false)
             {
-                FoxVars.targetTransform = FoxVars.targetHitObject.transform;
-                SnowFoxFollowTargetMain.SnowFoxFollowTarget();
+                if (FoxVars.foundRabbit == true)
+                {
+                    FoxVars.targetTransform = FoxVars.targetHitObject.transform;
+                    SnowFoxFetchTargetMain.SnowFoxFetchTarget();
+                }
+                else
+                {
+                    FoxVars.targetTransform = FoxVars.targetHitObject.transform;
+                    SnowFoxFollowTargetMain.SnowFoxFollowTarget();
+                }
             }
             else if (FoxVars.foxShouldFollowSomething == false && FoxVars.foxShouldFollowPlayer == true)
             {

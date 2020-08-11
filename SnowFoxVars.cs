@@ -16,7 +16,9 @@ namespace FoxCompanion
         public static CharacterController foxController;
 
         public static Material foxMaterial;
+        public static Texture2D foxTexture;
         public static Material foxOldMaterial;
+        public static SkinnedMeshRenderer foxRenderer;
         public static SkinnedMeshRenderer foxRendererAurora;
 
         public static float Gravity = -9.81f;
@@ -24,13 +26,29 @@ namespace FoxCompanion
 
         public static bool showCrosshair = false;
 
+        public static float bunnyX=0.01f;
+        public static float bunnyY=-0.05f;
+        public static float bunnyZ=0.523f;
+        //(0.01f, 0.07f, 0.523f)
+
         public static float rangeToTarget;
         public static float rangeToTargetTemp = 0.0f;
         public static float angleToTarget;
         public static float angleToTargetTree;
         public static float angleToTargetTreeTemp = 0.0f;
         public static float angleVelocity = 0.0f;
+        public static float speedVelocity = 1.0f;
         public static float vertSpeed = 1.0f;
+        public static float vertSpeedTemp = 1.0f;
+
+        public static bool foundRabbit = false;
+        public static bool rabbidStopped = false;
+        public static bool rabbidKilled = false;
+        public static bool rabbidEvaded = false;
+        public static int rabbidCatchRand;
+        public static bool carryRabbit = false;
+        public static bool foxJumping = false;
+        public static GameObject whiteRabbit;
 
         // Standard control settings
         public static string ButtonOrderFoxToFollowPlayer = "M";

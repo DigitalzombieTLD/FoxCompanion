@@ -14,7 +14,7 @@ namespace FoxCompanion
             {
                 FoxVars.rangeToTarget = Vector3.Distance(FoxVars.foxTransform.position, FoxVars.targetTransform.position);
 
-                if (FoxVars.rangeToTarget >= Settings.options.foxStopDistanceSlider)
+                if (FoxVars.rangeToTarget >= 3.0f)
                 {
                     FoxVars.foxState_Movement = "move";
                     FoxVars.foxanimator.SetBool("Stand", false);
@@ -40,15 +40,15 @@ namespace FoxCompanion
                     // Set speed in relation to distance to target
                     if (FoxVars.rangeToTarget >= 16f)
                     {
-                        FoxVars.foxanimator.speed = Settings.options.foxRunningSpeedSlider;
+                        FoxVars.foxanimator.speed = 1.8f;
                     }
                     else if(FoxVars.rangeToTarget < 16f && FoxVars.rangeToTarget >= 12f)
                     {
-                        FoxVars.foxanimator.speed = Settings.options.foxTrottingSpeedSlider;
+                        FoxVars.foxanimator.speed = 1.5f;
                     }
                     else if (FoxVars.rangeToTarget < 12f && FoxVars.rangeToTarget >= 5f)
                     {
-                        FoxVars.foxanimator.speed = Settings.options.foxWalkingSpeedSlider;
+                        FoxVars.foxanimator.speed = 1.3f;
                     }
                     else if (FoxVars.rangeToTarget < 5f && FoxVars.rangeToTarget >= 0f)
                     {

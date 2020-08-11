@@ -1,36 +1,35 @@
 ﻿using System.IO;
 using System.Reflection;
+using UnityEngine;
 using ModSettings;
 
 namespace FoxCompanion
 {
     internal class SnowFoxSettingsMain : JsonModSettings
-    {   
-        [Section("Speed")]
+    {
+        [Section("General settings")]
 
-        [Name("Running speed")]
-        [Description("Adjust the speed when running (Default: 1.8)")]
-        [Slider(1f, 3f, 1)]
-        public float foxRunningSpeedSlider = 1.8f;
+        [Name("Rabbit chance to catch")]
+        [Description("Chance to actually catch a rabbit when hunting (Default: 10%)")]
+        [Slider(0, 100)]
+        public int foxCatchChance = 10;
 
-        [Name("Trotting speed")]
-        [Description("Adjust the speed when trotting (Default: 1.5)")]
-        [Slider(1f, 3f, 1)]
-        public float foxTrottingSpeedSlider = 1.5f;
+        [Name("Auto follow")]
+        [Description("Fox automatically follows player after transition / spawning")]
+        public bool settingAutoFollow = true;
 
-        [Name("Walking speed")]
-        [Description("Adjust the speed when walking (Default: 1.3)")]
-        [Slider(1f, 3f, 1)]
-        public float foxWalkingSpeedSlider = 1.3f;
+        [Name("Aurora effects")]
+        [Description("Enable it to see how the fox is affected during the aurora")]
+        public bool settingAuroraFox = true;
 
-        [Section("Distance")]
+        [Section("Customization")]
 
-        [Name("Stop distance")]
-        [Description("Distance to target/player at which the fox stops (Default: 3.0)")]
-        [Slider(0.1f, 4.9f, 1)]
-        public float foxStopDistanceSlider = 3f;
+        [Name("Fox texture")]
+        [Description("Change the look of your fox")]
+        [Choice("Snow", "Black", "Orange", "Mane", "Zerda", "Custom 1", "Custom 2", "Custom 3")]
+        public int settingTexture = 3;
 
-        [Section("Control buttons")]
+        [Section("Controls")]
 
         [Name("Teleport")]
         [Description("Teleports fox to player, useful if fox gets stuck or lost")]
@@ -38,7 +37,7 @@ namespace FoxCompanion
         public int buttonTeleport = 12;
 
         [Name("Follow player / stop (toggle)")]
-        [Description("Toggles following the player and stoping (stopping works for follow/goto target too")]
+        [Description("Toggles following the player and stopping (stopping works for follow/goto target too")]
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
         public int buttonFollowPlayer = 9;
 
@@ -47,13 +46,54 @@ namespace FoxCompanion
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
         public int buttonFollowTarget = 10;
 
-        protected override void OnChange(FieldInfo field, object oldValue, object newValue)
+        [Name("Hunt rabbit")]
+        [Description("Order to hunt targeted rabbit. Hold key down to display crosshair, release to issue command to fox")]
+        [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
+        public int buttonCatchRabbit = 0;
+
+        protected override void OnConfirm()
         {
-            /*if (field.Name == nameof(advDecay) || field.Name == nameof(advFoodDecay) || field.Name == nameof(advOnUseDecay))
+            byte[] img;
+            // Apply texture
+            switch (Settings.options.settingTexture)
             {
-                RefreshFields();
-            }*/
+                case 0:
+                    img = System.IO.File.ReadAllBytes("Mods\\foxtures\\snow.png");
+                    break;
+                case 1:
+                    img = System.IO.File.ReadAllBytes("Mods\\foxtures\\black.png");
+                    break;
+                case 2:
+                    img = System.IO.File.ReadAllBytes("Mods\\foxtures\\orange.png");
+                    break;
+                case 3:
+                    img = System.IO.File.ReadAllBytes("Mods\\foxtures\\mane.png");
+                    break;
+                case 4:
+                    img = System.IO.File.ReadAllBytes("Mods\\foxtures\\zerda.png");
+                    break;
+                case 5:
+                    img = System.IO.File.ReadAllBytes("Mods\\foxtures\\custom1.png");
+                    break;
+                case 6:
+                    img = System.IO.File.ReadAllBytes("Mods\\foxtures\\custom2.png");
+                    break;
+                case 7:
+                    img = System.IO.File.ReadAllBytes("Mods\\foxtures\\custom3.png");
+                    break;
+                default:
+                    img = System.IO.File.ReadAllBytes("Mods\\foxtures\\snow.png");
+                    break;
+            }
+
+            FoxVars.foxTexture = new Texture2D(128, 64);
+            //FoxVars.foxTexture.LoadImage(FoxVars.foxTexture, img);
+            ImageConversion.LoadImage(FoxVars.foxTexture, img);
+            FoxVars.foxTexture.Apply();
+
+            FoxVars.foxRenderer.material.mainTexture = FoxVars.foxTexture;
         }
+        
     }
 
     internal static class Settings

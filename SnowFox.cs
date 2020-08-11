@@ -19,11 +19,11 @@ namespace FoxCompanion
 
             if (FoxVars.foxload == null)
             {
-                MelonModLogger.Log("Failed to load AssetBundle!");
+                MelonLogger.Log("Failed to load AssetBundle!");
                 return;
             }
            
-            MelonModLogger.Log("Snow fox asset succesfully loaded");
+            MelonLogger.Log("Snow fox asset succesfully loaded");
 
             // Settings menu
             FoxCompanion.Settings.OnLoad();
@@ -50,7 +50,9 @@ namespace FoxCompanion
                 SnowFoxInstanceMain.SnowFoxInstanceUpdate(); 
                 SnowFoxInputsMain.SnowFoxInputsUpdate();
                 SnowFoxManageMovementMain.SnowFoxManageMovement();
-                SnowFoxAuroraMain.SnowFoxAurora();                     
+                SnowFoxAuroraMain.SnowFoxAurora();        
+                
+
             }
         } 
     }

@@ -28,7 +28,7 @@ namespace FoxCompanion
                 FoxVars.foxRigid.useGravity = true;
                 FoxVars.foxRigid.isKinematic = true;
 
-                //MelonModLogger.Log("Snow fox is instantiated");
+                //MelonLogger.Log("Snow fox is instantiated");
                 FoxVars.foxactive = true;
                 FoxVars.foxSpawnTimer = 0f;
                 FoxVars.isLevelLoaded = true;                
@@ -38,10 +38,61 @@ namespace FoxCompanion
                 FoxVars.foxRendererAurora = aurora.GetComponent<SkinnedMeshRenderer>();
                 FoxVars.foxRendererAurora.enabled = false;
 
+                // Get normal skinned mesh and material
+                GameObject foxmesh = FoxVars.fox.transform.Find("Meshes/Fox").gameObject;
+                FoxVars.foxRenderer = foxmesh.GetComponent<SkinnedMeshRenderer>();
+                FoxVars.foxMaterial = foxmesh.GetComponent<SkinnedMeshRenderer>().material;
+
+                //FoxVars.foxMaterial.color = Color.red;
+
+                /*[Choice("Snow", "Black", "Orange", "Mane", "Zerda", "Custom 1", "Custom 2", "Custom 3")]
+                public int settingTexture = 0;*/
+                byte[] img;
+
+                switch (Settings.options.settingTexture)
+                {
+                    case 0: 
+                        img = System.IO.File.ReadAllBytes("Mods\\foxtures\\snow.png");
+                        break;
+                    case 1: 
+                        img = System.IO.File.ReadAllBytes("Mods\\foxtures\\black.png");
+                        break;
+                    case 2: 
+                        img = System.IO.File.ReadAllBytes("Mods\\foxtures\\orange.png");
+                        break;
+                    case 3: 
+                        img = System.IO.File.ReadAllBytes("Mods\\foxtures\\mane.png");
+                        break;
+                    case 4: 
+                        img = System.IO.File.ReadAllBytes("Mods\\foxtures\\zerda.png");
+                        break;
+                    case 5: 
+                        img = System.IO.File.ReadAllBytes("Mods\\foxtures\\custom1.png");
+                        break;
+                    case 6: 
+                        img = System.IO.File.ReadAllBytes("Mods\\foxtures\\custom2.png");
+                        break;
+                    case 7: 
+                        img = System.IO.File.ReadAllBytes("Mods\\foxtures\\custom3.png");
+                        break;
+                    default: 
+                        img = System.IO.File.ReadAllBytes("Mods\\foxtures\\snow.png");
+                        break;
+                }
+
+                FoxVars.foxTexture = new Texture2D(128, 64);
+                //FoxVars.foxTexture.LoadImage(FoxVars.foxTexture, img);
+                ImageConversion.LoadImage(FoxVars.foxTexture, img);
+                FoxVars.foxTexture.Apply();
+                MelonLogger.Log("Texture " + Settings.options.settingTexture);
+
+                FoxVars.foxRenderer.material.mainTexture = FoxVars.foxTexture;
+                
+
                 // Initiate standard 
                 FoxVars.foxanimator.SetBool("Stand", true);
                 FoxVars.foxanimator.SetInteger("IDInt", 2);
-                FoxVars.foxanimator.SetLayerWeight(FoxVars.foxanimator.GetLayerIndex("Fox"), 1);
+                FoxVars.foxanimator.SetLayerWeight(FoxVars.foxanimator.GetLayerIndex("Fox"), 1);                
             }
             else
             {
@@ -59,10 +110,21 @@ namespace FoxCompanion
             {
                 FoxVars.foxSpawned = true;
                 FoxVars.foxSpawnTimer = 0f;
-                FoxVars.foxState_WalkingToTarget = false;
-                FoxVars.foxState_Movement = "idle";
+                FoxVars.foxState_WalkingToTarget = false;                                   
 
-                SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());     
+                SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());
+
+                if (Settings.options.settingAutoFollow == true)
+                {
+                    FoxVars.foxShouldFollowSomething = false;
+                    FoxVars.foxShouldFollowPlayer = true;
+                }
+                else
+                {
+                    // FoxVars.foxState_Movement = "idle";
+                    FoxVars.foxShouldFollowSomething = false;
+                    FoxVars.foxShouldFollowPlayer = false;
+                }
             }
             else
             {

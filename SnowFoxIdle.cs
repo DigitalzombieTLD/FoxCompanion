@@ -18,13 +18,13 @@ namespace FoxCompanion
             {
                 FoxVars.idleStateCounter = 3;
                 FoxVars.foxanimator.Play("Laying to Sleep", 0, 0f);
-                MelonModLogger.Log("Fox is sleeping");
+                MelonLogger.Log("Fox is sleeping");
             }
             else if (FoxVars.idleStateChangeTimer >= FoxVars.timeToLay && FoxVars.idleStateChangeTimer < FoxVars.timeToSleep && FoxVars.idleStateCounter != 2)
             {
                 FoxVars.idleStateCounter = 2;
                 FoxVars.foxanimator.Play("Seat to Laying", 0, 0f);
-                MelonModLogger.Log("Fox is laying");
+                MelonLogger.Log("Fox is laying");
             }
             else if (FoxVars.idleStateChangeTimer >= FoxVars.timeToSit && FoxVars.idleStateChangeTimer < FoxVars.timeToLay && FoxVars.idleStateCounter != 1)
             {
@@ -36,13 +36,13 @@ namespace FoxCompanion
                 {
                     FoxVars.idleStateCounter = 1;
                     FoxVars.foxanimator.Play("Stand to Seat", 0, 0f);
-                    MelonModLogger.Log("Fox is sitting");
+                    MelonLogger.Log("Fox is sitting");
                 }             
             }
             else if (FoxVars.idleStateChangeTimer > FoxVars.timeToIdle && FoxVars.idleStateChangeTimer < FoxVars.timeToSit && FoxVars.idleStateCounter == 0)
             {
                 FoxVars.idleChangeTimer += Time.deltaTime;
-                //MelonModLogger.Log("Fox is idle");
+                //MelonLogger.Log("Fox is idle");
 
                 if (FoxVars.idleChangeTimer > FoxVars.idlechangeTime)
                 {
@@ -52,7 +52,7 @@ namespace FoxCompanion
                     }
                     else
                     {
-                        //MelonModLogger.Log("Fox is changing idle anim");
+                        //MelonLogger.Log("Fox is changing idle anim");
                         switch (FoxVars.idleRand)
                         {
                             case 1:

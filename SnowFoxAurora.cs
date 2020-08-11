@@ -10,8 +10,8 @@ namespace FoxCompanion
     {
         public static void SnowFoxAurora()
         {
-            if (GameManager.GetAuroraManager().AuroraIsActive() && GameManager.GetAuroraManager().GetNormalizedAlpha() >= 0.05f) // [Range(0.01f, 1f)] Aurora sensitivity
-            {
+            if (GameManager.GetAuroraManager().AuroraIsActive() && Settings.options.settingAuroraFox == true && GameManager.GetAuroraManager().GetNormalizedAlpha() >= 0.05f) // [Range(0.01f, 1f)] Aurora sensitivity
+            {                 
                 FoxVars.foxRendererAurora.enabled = true;
             }
             else

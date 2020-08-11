@@ -14,7 +14,7 @@ namespace FoxCompanion
             FoxVars.foxShouldFollowSomething = false;
 
             FoxVars.fox.transform.position = target.position;
-            MelonModLogger.Log("Teleport to Playertarget");
+            MelonLogger.Log("Teleport to Playertarget");
         }
     }
 }
