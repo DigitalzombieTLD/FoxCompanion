@@ -51,6 +51,13 @@ namespace FoxCompanion
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
         public int buttonCatchRabbit = 0;
 
+        protected override void OnChange(FieldInfo field, object oldValue, object newValue)
+        {
+            /*if (field.Name == nameof(advDecay) || field.Name == nameof(advFoodDecay) || field.Name == nameof(advOnUseDecay))
+            {
+                RefreshFields();
+            }*/
+        }
         protected override void OnConfirm()
         {
             byte[] img;
@@ -92,8 +99,11 @@ namespace FoxCompanion
             FoxVars.foxTexture.Apply();
 
             FoxVars.foxRenderer.material.mainTexture = FoxVars.foxTexture;
+
+            base.OnConfirm();
         }
-        
+
+
     }
 
     internal static class Settings
@@ -107,6 +117,9 @@ namespace FoxCompanion
             ///options.RefreshFields();
             options.AddToModSettings("Fox Settings");
         }
+
+        
+
 
         public static string GetInputKeyFromString(int keyStringInt)
         {

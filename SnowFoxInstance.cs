@@ -84,8 +84,7 @@ namespace FoxCompanion
                 //FoxVars.foxTexture.LoadImage(FoxVars.foxTexture, img);
                 ImageConversion.LoadImage(FoxVars.foxTexture, img);
                 FoxVars.foxTexture.Apply();
-                MelonLogger.Log("Texture " + Settings.options.settingTexture);
-
+             
                 FoxVars.foxRenderer.material.mainTexture = FoxVars.foxTexture;
                 
 
