@@ -9,7 +9,7 @@ namespace FoxCompanion
     public class FoxVars : MelonMod
     {     
         public static Animator foxanimator;
-        public static GameObject fox;
+        public static GameObject fox = null;
         public static GameObject foxasset;
         public static AssetBundle foxload;
         public static Rigidbody foxRigid;
@@ -20,6 +20,9 @@ namespace FoxCompanion
         public static Material foxOldMaterial;
         public static SkinnedMeshRenderer foxRenderer;
         public static SkinnedMeshRenderer foxRendererAurora;
+
+        public static Color foxFurColor;
+        public static Color foxAuroraPatternColor;
 
         public static float Gravity = -9.81f;
         public static Vector3 _velocity;
@@ -42,6 +45,7 @@ namespace FoxCompanion
         public static float vertSpeedTemp = 1.0f;
 
         public static bool foundRabbit = false;
+        public static bool foundItem = false;
         public static bool rabbidStopped = false;
         public static bool rabbidKilled = false;
         public static bool rabbidEvaded = false;
@@ -62,8 +66,7 @@ namespace FoxCompanion
         public static Transform targetTransform; //current target transform
         public static Transform targetHitTransform; //current target transform
         public static GameObject targetHitObject;
-        public static Transform foxTransform; //current fox transform
-       
+        public static Transform foxTransform; //current fox transform  
 
         public static Vector3 playerPosition; //current position of the player
         public static Vector3 _direction;
@@ -72,7 +75,8 @@ namespace FoxCompanion
 
         public static int idleRand;
 
-        public static float timeToSpawn = 3f;
+        public static float timeToSpawn = 2f;
+        public static bool timeToSpawnStarted = false;
 
         public static float timeToIdle = 12.0f;
         public static float idlechangeTime = 8f;
@@ -89,12 +93,13 @@ namespace FoxCompanion
         public static float idleChangeTimer = 0.0f;
         public static float idleStateChangeTimer = 0.0f;
 
-        public static float foxSpawnTimer = 0.0f;
+        public static float foxSpawnTimer = 2.0f;
         public static float walkModeTimer = 0.0f;
-        
 
+        public static int loadedScene = 0;
 
         public static bool isLevelLoaded = false; // Is the scene loaded?
+        public static bool isFoxLoaded = false; // Is the fox  loaded?
 
         public static bool foxShouldFollowPlayer = false;
         public static bool foxShouldFollowSomething = false;
@@ -103,5 +108,16 @@ namespace FoxCompanion
         public static string foxState_Movement = "wait"; // idle / walk / run
 
         public Animation walkanim;
+
+        public static GameObject targetsphere;
+        public static Transform targetsphereTransform;
+        public static bool targetsphereActive = false;
+
+        public static RaycastHit[] sphereTargethit;
+        public static Transform sphereLastHit;
+        public static GameObject sphereLastHitObj;
+        public static Renderer sphererend;
+
+        public static int sphereTargetObject;
     }
 }

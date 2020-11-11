@@ -11,7 +11,7 @@ namespace FoxCompanion
 
         public static void SnowFoxInputsUpdate()
         {
-            if (Input.GetKeyDown(Settings.GetInputKeyFromString(Settings.options.buttonFollowPlayer)))
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.GetInputKeyFromString(Settings.options.buttonFollowPlayer)) && FoxVars.foxactive == true && FoxVars.foxSpawned == true)
             {
                 // Toggle following player
                 if (FoxVars.foxShouldFollowPlayer == false)
@@ -30,30 +30,33 @@ namespace FoxCompanion
             }
 
             // Teleport fox to player
-            if (Input.GetKeyDown(Settings.GetInputKeyFromString(Settings.options.buttonTeleport))) // Teleport fox to player
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.GetInputKeyFromString(Settings.options.buttonTeleport)) && FoxVars.foxactive == true && FoxVars.foxSpawned == true) // Teleport fox to player
             {
                 SnowFoxTeleportFoxMain.TeleportFoxToTarget(FoxVars.playerTransform);               
             }
 
-            if (Input.GetKeyDown(Settings.GetInputKeyFromString(Settings.options.buttonFollowTarget))) // Enable crosshair
+            /*
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.GetInputKeyFromString(Settings.options.buttonFollowTarget))) // Enable crosshair
             {
-                FoxVars.showCrosshair = !FoxVars.showCrosshair;
+                FoxVars.showCrosshair = true;
             }
 
-            if (Input.GetKeyUp(Settings.GetInputKeyFromString(Settings.options.buttonFollowTarget))) // Order fox to point, disable crosshair
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.GetInputKeyFromString(Settings.options.buttonFollowTarget))) // Order fox to point, disable crosshair
             {
-                FoxVars.showCrosshair = !FoxVars.showCrosshair;
+                FoxVars.showCrosshair = false;
 
                 RaycastHit hit;
 
                 if (Physics.Raycast(GameManager.GetMainCamera().transform.position, GameManager.GetMainCamera().transform.TransformDirection(Vector3.forward), out hit, 500))
                 {
                     MelonLogger.Log("Target: " + hit.transform.gameObject.transform);
-                    FoxVars.targetHitObject = hit.transform.gameObject;             
+                    //FoxVars.targetHitObject = hit.transform;
+                    //FoxVars.targetTransform = hit.transform;
+                    FoxVars.targetTransform = hit.transform.gameObject.transform;
                     FoxVars.foxShouldFollowPlayer = false;
                     FoxVars.foxShouldFollowSomething = true;
                 }
-            }
+            }*/
 
             // Rotate bunny, for positioning
             /*
@@ -115,61 +118,55 @@ namespace FoxCompanion
             */
 
 
-
-
-
-            if (Input.GetKeyDown(Settings.GetInputKeyFromString(Settings.options.buttonCatchRabbit))) // Enable crosshair
+            if (InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.GetInputKeyFromString(Settings.options.buttonCommandMode)) && FoxVars.foxactive == true && FoxVars.foxSpawned == true && FoxVars.targetsphereActive == false) // Enable targeting mode
             {
-                FoxVars.showCrosshair = !FoxVars.showCrosshair;
+                //FoxVars.showCrosshair = true;
+                FoxVars.targetsphereActive = true;
             }
 
+            if (InputManager.GetMouseButtonDown(InputManager.m_CurrentContext, 0) && FoxVars.foxactive == true && FoxVars.foxSpawned == true && FoxVars.targetsphereActive == true)
+            {                
+                if(FoxVars.targetsphereActive == true)
+                {                    
+                    FoxVars.sphererend.material.color = new Color(0.1f, 0.1f, 1.0f, 0.0f);
 
-
-            if (Input.GetKeyUp(Settings.GetInputKeyFromString(Settings.options.buttonCatchRabbit))) // Test some stuff
-            {
-                FoxVars.showCrosshair = !FoxVars.showCrosshair;
-
-                RaycastHit hit;
-                
-
-                if (Physics.Raycast(GameManager.GetMainCamera().transform.position, GameManager.GetMainCamera().transform.TransformDirection(Vector3.forward), out hit, 500))
-                {
-                    if(hit.transform.gameObject != null)
+                    if (FoxVars.sphereTargetObject == 2 && FoxVars.foundRabbit == true)
                     {
-                        MelonLogger.Log("Target - name: " + hit.transform.gameObject.name);
+                        FoxVars.targetHitObject = FoxVars.sphereLastHitObj;
 
-                        if(hit.transform.gameObject.name== "WILDLIFE_Rabbit")
-                        {
-                            FoxVars.foundRabbit = true;                         
-                            FoxVars.whiteRabbit = hit.transform.gameObject;                            
-                        }
-                        else if(hit.transform.parent.gameObject != null)
-                        {
-                            if (hit.transform.parent.gameObject.name == "WILDLIFE_Rabbit")
-                            {
-                                FoxVars.foundRabbit = true;
-                                FoxVars.whiteRabbit = hit.transform.parent.gameObject;
-                            }
-                            else if (hit.transform.parent.parent.gameObject != null)
-                            {
-                                if(hit.transform.parent.parent.gameObject.name == "WILDLIFE_Rabbit")
-                                {
-                                    FoxVars.foundRabbit = true;
-                                    FoxVars.whiteRabbit = hit.transform.parent.parent.gameObject;                            
-                                }                                
-                            }
-                        }
+                        FoxVars.targetTransform = FoxVars.sphereLastHitObj.transform;
 
-                        if(FoxVars.foundRabbit == true)
-                        {
-                            FoxVars.targetHitObject = FoxVars.whiteRabbit;
-                            FoxVars.foxShouldFollowPlayer = false;
-                            FoxVars.foxShouldFollowSomething = true;
-                            FoxVars.rabbidKilled = false;
-                            FoxVars.rabbidEvaded = false;
-                            MelonLogger.Log("Found the white Rabbit! " + FoxVars.whiteRabbit.name);                            
-                        }                        
-                    }                    
+                        FoxVars.foxShouldFollowPlayer = false;
+                        FoxVars.foxShouldFollowSomething = true;
+                        FoxVars.rabbidKilled = false;
+                        FoxVars.rabbidEvaded = false;
+                            
+                        MelonLogger.Log("Found the white Rabbit! " + FoxVars.whiteRabbit.name);                        
+                    }
+
+                    if (FoxVars.sphereTargetObject == 3)
+                    {
+                        FoxVars.targetHitObject = FoxVars.sphereLastHitObj;
+
+                        FoxVars.targetTransform = FoxVars.sphereLastHitObj.transform;
+
+                        FoxVars.foxShouldFollowPlayer = false;
+                        FoxVars.foxShouldFollowSomething = true;
+                        FoxVars.rabbidKilled = false;
+                        FoxVars.rabbidEvaded = false;
+                    }
+
+                    FoxVars.targetsphereActive = false;
+                }
+            }
+
+            if (InputManager.GetMouseButtonDown(InputManager.m_CurrentContext, 1) && FoxVars.foxactive == true && FoxVars.foxSpawned == true && FoxVars.targetsphereActive == true)
+            {
+                if (FoxVars.targetsphereActive == true)
+                {
+                    FoxVars.targetsphereActive = false;
+                    FoxVars.foundRabbit = false;
+                    FoxVars.sphererend.material.color = new Color(0.1f, 0.1f, 1.0f, 0.0f);
                 }
             }
         }

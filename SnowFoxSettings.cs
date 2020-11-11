@@ -9,6 +9,10 @@ namespace FoxCompanion
     {
         [Section("General settings")]
 
+        [Name("Enable / disable mod")]
+        [Description("Enable mod (if disabled fox won't spawn on loading/starting a game or disappears on scene transition (eg. going inside)")]
+        public bool settingFoxEnable = true;
+
         [Name("Rabbit chance to catch")]
         [Description("Chance to actually catch a rabbit when hunting (Default: 10%)")]
         [Slider(0, 100)]
@@ -17,17 +21,53 @@ namespace FoxCompanion
         [Name("Auto follow")]
         [Description("Fox automatically follows player after transition / spawning")]
         public bool settingAutoFollow = true;
-
+         
         [Name("Aurora effects")]
-        [Description("Enable it to see how the fox is affected during the aurora")]
-        public bool settingAuroraFox = true;
+        [Description("Show aurora effects")]
+        [Choice("During aurora", "Always", "Never")]
+        public int settingAuroraFox = 0;
 
-        [Section("Customization")]
+        [Section("Texture")]
 
         [Name("Fox texture")]
         [Description("Change the look of your fox")]
         [Choice("Snow", "Black", "Orange", "Mane", "Zerda", "Custom 1", "Custom 2", "Custom 3")]
-        public int settingTexture = 3;
+        public int settingTexture = 0;
+
+        [Section("Fur tint color (Default: R(1) G(1) B(1))")]
+
+        [Name("Red")]
+        [Description("Red color component of the fur")]
+        [Slider(0f, 1f)]
+        public float settingFoxFurColorR = 1;
+
+        [Name("Green")]
+        [Description("Blue color component of the fur")]
+        [Slider(0f, 1f)]
+        public float settingFoxFurColorG = 1;
+
+        [Name("Blue")]
+        [Description("Blue color component of the fur")]
+        [Slider(0f, 1f)]
+        public float settingFoxFurColorB = 1;
+        
+        [Section("Aurora effect glow color (Default: R(1) G(1) B(1))")]
+
+        [Name("Red")]
+        [Description("Red color component of the aurora effect on the fox")]
+        [Slider(0, 1f)]
+        public float settingFoxAuroraColorR = 1;
+
+        [Name("Green")]
+        [Description("Blue color component of the aurora effect on the fox")]
+        [Slider(0, 1f)]
+        public float settingFoxAuroraColorG = 1;
+
+        [Name("Blue")]
+        [Description("Blue color component of the aurora effect on the fox")]
+        [Slider(0, 1f)]
+        public float settingFoxAuroraColorB = 1;
+
 
         [Section("Controls")]
 
@@ -41,15 +81,15 @@ namespace FoxCompanion
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
         public int buttonFollowPlayer = 9;
 
-        [Name("Follow target / Goto target")]
+        /*[Name("Follow target / Goto target")]
         [Description("Order to follow/goto target. Hold key down to display crosshair, release to issue command to fox")]
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
-        public int buttonFollowTarget = 10;
+        public int buttonFollowTarget = 10;*/
 
-        [Name("Hunt rabbit")]
-        [Description("Order to hunt targeted rabbit. Hold key down to display crosshair, release to issue command to fox")]
+        [Name("Enable command mode")]
+        [Description("Aim at an object/animal while mode is enabled. Execute on left mouse button, cancel on right mouse button.")]
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
-        public int buttonCatchRabbit = 0;
+        public int buttonCommandMode = 0;
 
         protected override void OnChange(FieldInfo field, object oldValue, object newValue)
         {
@@ -95,10 +135,19 @@ namespace FoxCompanion
 
             FoxVars.foxTexture = new Texture2D(128, 64);
             //FoxVars.foxTexture.LoadImage(FoxVars.foxTexture, img);
-            ImageConversion.LoadImage(FoxVars.foxTexture, img);
-            FoxVars.foxTexture.Apply();
+            ImageConversion.LoadImage(FoxVars.foxTexture, img);            
 
             FoxVars.foxRenderer.material.mainTexture = FoxVars.foxTexture;
+            
+            FoxVars.foxFurColor = new Color(settingFoxFurColorR, settingFoxFurColorG, settingFoxFurColorB, 1f);
+            FoxVars.foxAuroraPatternColor = new Color(settingFoxAuroraColorR, settingFoxAuroraColorG, settingFoxAuroraColorB, 1f);
+
+            // Fur color
+            FoxVars.foxRenderer.material.SetColor("_Color", FoxVars.foxFurColor);
+
+            // Aurora pattern color
+            FoxVars.foxRendererAurora.material.SetColor("_EmissionColor", FoxVars.foxAuroraPatternColor);
+            FoxVars.foxTexture.Apply();
 
             base.OnConfirm();
         }
@@ -109,7 +158,7 @@ namespace FoxCompanion
     internal static class Settings
     {
         public static SnowFoxSettingsMain options;
-        public static string returnKeyValue;
+        public static KeyCode returnKeyValue;
 
         public static void OnLoad()
         {
@@ -121,93 +170,90 @@ namespace FoxCompanion
         
 
 
-        public static string GetInputKeyFromString(int keyStringInt)
+        public static KeyCode GetInputKeyFromString(int keyStringInt)
         {
             switch(keyStringInt)
             {
                 case 0:
-                    returnKeyValue = "b";
+                    returnKeyValue = KeyCode.B;
                     break;
                 case 1:
-                    returnKeyValue = "c";
+                    returnKeyValue = KeyCode.C;
                     break;
                 case 2:
-                    returnKeyValue = "f";
+                    returnKeyValue = KeyCode.F;
                     break;
                 case 3:
-                    returnKeyValue = "g";
+                    returnKeyValue = KeyCode.G;
                     break;
                 case 4:
-                    returnKeyValue = "h";
+                    returnKeyValue = KeyCode.H;
                     break;
                 case 5:
-                    returnKeyValue = "i";
+                    returnKeyValue = KeyCode.I;
                     break;
                 case 6:
-                    returnKeyValue = "j";
+                    returnKeyValue = KeyCode.K;
                     break;
                 case 7:
-                    returnKeyValue = "k";
+                    returnKeyValue = KeyCode.K;
                     break;
                 case 8:
-                    returnKeyValue = "l";
+                    returnKeyValue = KeyCode.L;
                     break;
                 case 9:
-                    returnKeyValue = "m";
+                    returnKeyValue = KeyCode.M;
                     break;
                 case 10:
-                    returnKeyValue = "n";
+                    returnKeyValue = KeyCode.N;
                     break;
                 case 11:
-                    returnKeyValue = "o";
+                    returnKeyValue = KeyCode.O;
                     break;
                 case 12:
-                    returnKeyValue = "p";
+                    returnKeyValue = KeyCode.P;
                     break;
                 case 13:
-                    returnKeyValue = "r";
+                    returnKeyValue = KeyCode.R;
                     break;
                 case 14:
-                    returnKeyValue = "t";
+                    returnKeyValue = KeyCode.T;
                     break;
                 case 15:
-                    returnKeyValue = "u";
+                    returnKeyValue = KeyCode.U;
                     break;
                 case 16:
-                    returnKeyValue = "v";
+                    returnKeyValue = KeyCode.V;
                     break;
                 case 17:
-                    returnKeyValue = "x";
+                    returnKeyValue = KeyCode.X;
                     break;
                 case 18:
-                    returnKeyValue = "y";
+                    returnKeyValue = KeyCode.Y;
                     break;
                 case 19:
-                    returnKeyValue = "z";
+                    returnKeyValue = KeyCode.Z;
                     break;
                 case 20:
-                    returnKeyValue = "insert";
+                    returnKeyValue = KeyCode.Insert;
                     break;
                 case 21:
-                    returnKeyValue = "home";
+                    returnKeyValue = KeyCode.Home;
                     break;
                 case 22:
-                    returnKeyValue = "end";
+                    returnKeyValue = KeyCode.End;
                     break;
                 case 23:
-                    returnKeyValue = "pageup";
+                    returnKeyValue = KeyCode.PageUp;
                     break;
                 case 24:
-                    returnKeyValue = "pagedown";
+                    returnKeyValue = KeyCode.PageDown;
                     break;
                 case 25:
-                    returnKeyValue = "pause";
+                    returnKeyValue = KeyCode.Pause;
                     break;
                 case 26:
-                    returnKeyValue = "clear";
-                    break;
-                default:
-                    returnKeyValue = "";
+                    returnKeyValue = KeyCode.Clear;
                     break;
             }
 

@@ -10,14 +10,25 @@ namespace FoxCompanion
     {
         public static void SnowFoxAurora()
         {
-            if (GameManager.GetAuroraManager().AuroraIsActive() && Settings.options.settingAuroraFox == true && GameManager.GetAuroraManager().GetNormalizedAlpha() >= 0.05f) // [Range(0.01f, 1f)] Aurora sensitivity
-            {                 
+            if (Settings.options.settingAuroraFox == 0)
+            {
+                if (GameManager.GetAuroraManager().AuroraIsActive() && GameManager.GetAuroraManager().GetNormalizedAlpha() >= 0.05f) // [Range(0.01f, 1f)] Aurora sensitivity
+                {
+                    FoxVars.foxRendererAurora.enabled = true;
+                }
+                else
+                {
+                    FoxVars.foxRendererAurora.enabled = false;
+                }
+            }
+            else if (Settings.options.settingAuroraFox == 1 && FoxVars.foxRendererAurora.enabled != true)
+            {
                 FoxVars.foxRendererAurora.enabled = true;
             }
-            else
+            else if (Settings.options.settingAuroraFox == 2 && FoxVars.foxRendererAurora.enabled != false)
             {
                 FoxVars.foxRendererAurora.enabled = false;
-            }   
+            }
         }
     }
 }

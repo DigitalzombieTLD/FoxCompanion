@@ -94,6 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SnowFoxFetchItem.cs" />
     <Compile Include="SnowFoxFetchTarget.cs" />
     <Compile Include="SnowFoxManageMovement.cs" />
     <Compile Include="SnowFoxFollowTarget.cs" />

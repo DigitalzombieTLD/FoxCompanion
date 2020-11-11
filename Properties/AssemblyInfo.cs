@@ -7,7 +7,7 @@ using FoxCompanion;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: MelonInfo(typeof(SnowFoxMain), "FoxCompanion", "0.9.5", "Digitalzombie", "")]
+[assembly: MelonInfo(typeof(SnowFoxMain), "FoxCompanion", "0.9.8", "Digitalzombie", "")]
 [assembly: MelonGame("Hinterland", "TheLongDark")]
 [assembly: AssemblyTitle("FoxCompanion")]
 [assembly: AssemblyDescription("A little companion for the lonely TLD player")]

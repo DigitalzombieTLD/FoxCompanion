@@ -111,6 +111,8 @@ namespace FoxCompanion
                         FoxVars.foxJumping = false;
                         FoxVars.foxShouldFollowSomething = false;
                         FoxVars.foxShouldFollowPlayer = true;
+                        FoxVars.sphereTargetObject = 0;
+
 
                         FoxVars.targetHitObject.GetComponentInChildren<BaseAi>().ExitWanderPaused();
                         FoxVars.targetHitObject.GetComponentInChildren<BaseAi>().SetFleeReason(BaseAi.AiFleeReason.ThrownStone);
