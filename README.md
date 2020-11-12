@@ -1,4 +1,4 @@
-The Long Dark - Snowfox companion mod - v0.9.5 by Digitalzombie
+The Long Dark - Snowfox companion mod - v0.9.8 by Digitalzombie
 ===============================================================
 
 How to install:
@@ -9,17 +9,19 @@ This creates a new folder named "Mods" in your TLD folder.
 
 2. Extract everything from the ZIP file to your new TLD\Mods folder (overwrite old files)
 
-3. Download and install "ModSettings"-Mod by zeobviouslyfakeacc:
+3. Delete any existing "FoxCompanion.json" file in your TLD\Mods folder!!!
+
+4. Download and install "ModSettings"-Mod by zeobviouslyfakeacc:
 https://github.com/zeobviouslyfakeacc/ModSettings/releases/latest
 
-4. Start the game! 
+5. Start the game!  
 
 =============================================
 =============================================
 
 How to use:
 ===========
-1. Fox spawns automatically 3 seconds after you get in the game or transition to a new scene 
+1. Fox spawns automatically 2 seconds after you get in the game or transition to a new scene 
 (eg. getting indoors/outdoors)
 
 2. You can customize options (controls etc) in the ModSettings menu found under: 
@@ -30,11 +32,10 @@ Main Menu -> Options -> Mod Settings -> Fox settings
 4. Teleport fox directly to you by pressing the "Teleport" key on your keyboard 
 Useful if fox gets stuck or you lost it somewhere.
 
-5. Order to follow/goto target by pressing the "Follow Target / Goto Target" button. 
-Hold key down to display crosshair, release to issue command to fox
-
-6. Order to follow/goto target by pressing the "Follow Target / Goto Target" button. 
-Hold key down to display crosshair, release to issue command to fox
+5. Enter target & command mode by pressing the "Enable command mode" button. 
+Aim in the general direction of a target. A red sphere appears above targeted rabbits, a green one above items.
+Press the left mouse button to order the fox to hunt the rabbit or fetch the item.
+Press the right mouse button to cancel the command mode.
 
 
 How to customize your own textures:
@@ -64,6 +65,16 @@ https://www.reddit.com/r/thelongdark/
 
 Changelog:
 ==========
+0.9.8
+- Working on newest update
+- New targeting system for hunting / fetching
+- Hunting now working!
+- Fetching of items now working! May look a bit weird, depending on the item
+- Smoothed the animations by quite a bit
+- New customization options: fur color and aurora effect color
+- Added option to disable mod. Will remove the fox on scene transition
+- Added option for aurora effects: always enabled, never enabled, only during aurora
+- Other small bugfixes 
 
 0.9.5
 - Refined the animation speeds a bit and removed the settings from the menu
