@@ -9,7 +9,7 @@ This creates a new folder named "Mods" in your TLD folder.
 
 2. Extract everything from the ZIP file to your new TLD\Mods folder (overwrite old files)
 
-3. Delete any existing "FoxCompanion.json" file in your TLD\Mods folder!!!
+3. Players who are upgrading to the latest version from an earlier version need to delete the "FoxCompanion.json" file from their mod folder first, otherwise the mod will not appear in game.
 
 4. Download and install "ModSettings"-Mod by zeobviouslyfakeacc:
 https://github.com/zeobviouslyfakeacc/ModSettings/releases/latest
