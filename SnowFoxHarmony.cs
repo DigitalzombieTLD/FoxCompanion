@@ -9,18 +9,28 @@ namespace FoxCompanion
 {
     public class SnowFoxHarmonyMain : MelonMod
     {
-        [HarmonyPatch(typeof(HUDManager), "UpdateCrosshair")]
-        public class WeaponCrosshairUpdate
+        [HarmonyPatch(typeof(SaveGameSystem), "SaveGame")]
+        public class SaveGameSystemSaveAddon
         {
-            public static void Postfix(HUDManager __instance)
+            public static void Postfix()
             {
-                /*if (FoxVars.showCrosshair == true)
-                {
-                    //GearItem itemInHands = GameManager.GetPlayerManagerComponent().m_ItemInHands;
+                Settings.options.Save();
+            }
+        }
 
-                    Utils.SetActive(InterfaceManager.m_Panel_HUD.m_Sprite_Crosshair.gameObject, true);
-                    InterfaceManager.m_Panel_HUD.m_Sprite_Crosshair.alpha = 1f;
-                }*/
+        [HarmonyPatch(typeof(Hunger), "RemoveReserveCalories")]
+        public class RemoveReserveCaloriesAddon
+        {
+            public static void Prefix(ref float calories)
+            {
+                if(Settings.options.foxCalories>=0)
+                {
+                    Settings.options.foxCalories = Settings.options.foxCalories - calories;
+                }
+                else
+                {
+                    Settings.options.foxCalories = 0;
+                }
             }
         }
     }

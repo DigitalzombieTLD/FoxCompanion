@@ -30,7 +30,7 @@ namespace FoxCompanion
                     // Smooth turn animation
                     FoxVars.angleToTargetTreeTemp = Mathf.SmoothDamp(FoxVars.angleToTargetTreeTemp, FoxVars.angleToTargetTree, ref FoxVars.angleVelocity, 0.2f);
                     FoxVars.foxanimator.SetFloat("Horizontal", FoxVars.angleToTargetTreeTemp);
-
+                    SnowFoxAlignToGroundMain.SnowFoxAlignToGround();
                     // Forward movement (funzt but jerky)
                     //FoxVars.foxanimator.SetFloat("Vertical", FoxVars.rangeToTarget / 3);
                     //FoxVars.foxanimator.SetBool("Stand", false);                                  

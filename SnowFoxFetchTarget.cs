@@ -10,7 +10,7 @@ namespace FoxCompanion
     {
         public static void SnowFoxFetchTarget()
         {
-            if ((FoxVars.foundRabbit == true) && FoxVars.targetTransform != null)
+            if ((FoxVars.foundRabbit == true) && FoxVars.targetTransform != null && Settings.options.foxCalories >= 300)
             {
                 FoxVars.rangeToTarget = Vector3.Distance(FoxVars.foxTransform.position, FoxVars.targetTransform.position);
 
@@ -69,7 +69,7 @@ namespace FoxCompanion
                             FoxVars.foxJumping = true;
                             FoxVars.foxanimator.Play("Jump Forward (Single)", FoxVars.foxanimator.GetLayerIndex("Fox"), 0f);
                             MelonLogger.Log("Jump!");
-                            FoxVars.rabbidCatchRand = UnityEngine.Random.Range(0, 100);
+                            FoxVars.rabbidCatchRand = UnityEngine.Random.Range(0, 150);
                         }
                     }
                     
@@ -82,10 +82,12 @@ namespace FoxCompanion
                 }
                 else
                 {
-                   // MelonLogger.Log("Random: " + FoxVars.rabbidCatchRand);
-
-                    if (FoxVars.rabbidCatchRand <= Settings.options.foxCatchChance)
+                    // MelonLogger.Log("Random: " + FoxVars.rabbidCatchRand);
+                    //FoxVars.rabbidCatchRand <= Settings.options.foxCatchChance 
+                    
+                    if (FoxVars.rabbidCatchRand <= Settings.options.foxCalories/10)
                     {
+
                         MelonLogger.Log("Killed the rabbit!");
                         FoxVars.foundRabbit = false;
                         FoxVars.foxJumping = false;
@@ -94,7 +96,7 @@ namespace FoxCompanion
                         FoxVars.rabbidKilled = true;
 
                         GameObject foxJaw;
-                        foxJaw = FoxVars.foxTransform.GetChild(4).GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(2).gameObject;
+                        foxJaw = FoxVars.foxTransform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(2).gameObject;
                         FoxVars.whiteRabbit.transform.SetParent(foxJaw.transform, true);
 
                         FoxVars.whiteRabbit.transform.localPosition = new Vector3(FoxVars.bunnyX, FoxVars.bunnyY, FoxVars.bunnyZ); //new Vector3(0.01f, 0.05f, 0.523f);
@@ -119,6 +121,16 @@ namespace FoxCompanion
                         FoxVars.targetHitObject.GetComponentInChildren<BaseAi>().FleeFrom(FoxVars.foxTransform);
                         FoxVars.targetHitObject.GetComponentInChildren<BaseAi>().EnterFlee();
                     }
+                }
+            }
+            else if(Settings.options.foxCalories < 300)
+            {
+                FoxVars.foundRabbit = false;
+                FoxVars.foxShouldFollowSomething = false;
+
+                if (Settings.options.settingDisplayMsg == true)
+                {
+                    HUDMessage.AddMessage("[The fox is too hungry to obey]", false);
                 }
             }
 

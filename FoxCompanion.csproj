@@ -88,14 +88,24 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>G:\Games\Steam\steamapps\common\TheLongDark\MelonLoader\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>G:\Games\Steam\steamapps\common\TheLongDark\MelonLoader\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>G:\Games\Steam\steamapps\common\TheLongDark\MelonLoader\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SnowFoxInteractionEat.cs" />
+    <Compile Include="SnowFoxPawprints.cs" />
+    <Compile Include="SnowFoxInteractionBed.cs" />
+    <Compile Include="SnowFoxTargeting.cs" />
+    <Compile Include="SnowFoxAlignToGround.cs" />
     <Compile Include="SnowFoxFetchItem.cs" />
     <Compile Include="SnowFoxFetchTarget.cs" />
+    <Compile Include="SnowFoxIK.cs" />
     <Compile Include="SnowFoxManageMovement.cs" />
     <Compile Include="SnowFoxFollowTarget.cs" />
     <Compile Include="SnowFoxHarmony.cs" />

@@ -13,19 +13,20 @@ namespace FoxCompanion
         [Description("Enable mod (if disabled fox won't spawn on loading/starting a game or disappears on scene transition (eg. going inside)")]
         public bool settingFoxEnable = true;
 
-        [Name("Rabbit chance to catch")]
-        [Description("Chance to actually catch a rabbit when hunting (Default: 10%)")]
-        [Slider(0, 100)]
-        public int foxCatchChance = 10;
-
         [Name("Auto follow")]
         [Description("Fox automatically follows player after transition / spawning")]
         public bool settingAutoFollow = true;
-         
+
+        [Name("Onscreen messages")]
+        [Description("Display messages when entering command mode")]
+        public bool settingDisplayMsg = true;
+        
         [Name("Aurora effects")]
         [Description("Show aurora effects")]
         [Choice("During aurora", "Always", "Never")]
         public int settingAuroraFox = 0;
+
+        
 
         [Section("Texture")]
 
@@ -33,6 +34,10 @@ namespace FoxCompanion
         [Description("Change the look of your fox")]
         [Choice("Snow", "Black", "Orange", "Mane", "Zerda", "Custom 1", "Custom 2", "Custom 3")]
         public int settingTexture = 0;
+
+        [Name("Fox fur")]
+        [Description("Enable / disable fur shader")]
+        public bool settingFoxFurShader = false;
 
         [Section("Fur tint color (Default: R(1) G(1) B(1))")]
 
@@ -68,6 +73,21 @@ namespace FoxCompanion
         [Slider(0, 1f)]
         public float settingFoxAuroraColorB = 1;
 
+        [Name("Glow intensity")]
+        [Description("Brightness of the glow effect")]
+        [Slider(0, 20f)]
+        public float settingFoxAuroraIntensity = 2;
+
+        [Name("Light intensity")]
+        [Description("Brightness of the light illuminating the surroundings")]
+        [Slider(0, 3f)]
+        public float foxAuroraLightIntensity = 2.0f;
+
+        [Name("Light range")]
+        [Description("Range of the light illuminating the surroundings")]
+        [Slider(0, 3f)]
+        public float foxAuroraLightRange = 0.5f;
+
 
         [Section("Controls")]
 
@@ -91,15 +111,24 @@ namespace FoxCompanion
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
         public int buttonCommandMode = 0;
 
+        [Name("Fox Calories")]
+        [Description("Please ignore")]
+        [Slider(0, 10000)]
+        public float foxCalories = 1500;
+
         protected override void OnChange(FieldInfo field, object oldValue, object newValue)
-        {
-            /*if (field.Name == nameof(advDecay) || field.Name == nameof(advFoodDecay) || field.Name == nameof(advOnUseDecay))
-            {
-                RefreshFields();
-            }*/
-        }
-        protected override void OnConfirm()
-        {
+        {           
+            GameManager.GetCameraEffects().DepthOfFieldTurnOff(true);
+            GameManager.GetCameraEffects().VignettingEnable(false);
+            GameManager.GetCameraEffects().ContrastEnhanceEnable(false);
+
+            FoxVars.SettingsBackgroundSprite = GameObject.Find("Panel_OptionsMenu/Pages/ModSettings/bg (2)");
+            FoxVars.SettingsBackgroundSprite.GetComponent<UISprite>().mColor = new Color(0f, 0f, 0f, 0f);
+            FoxVars.SettingsBackgroundMark = GameObject.Find("Panel_OptionsMenu/Pages/ModSettings/mark (2)");
+            FoxVars.SettingsBackgroundMark.GetComponent<UISprite>().mColor = new Color(0f, 0f, 0f, 0f);
+            FoxVars.SettingsBackgroundVignette = GameObject.Find("Panel_OptionsMenu/Pages/ModSettings/Vignette (2)");
+            FoxVars.SettingsBackgroundVignette.GetComponent<UISprite>().mColor = new Color(0f, 0f, 0f, 0f);
+
             byte[] img;
             // Apply texture
             switch (Settings.options.settingTexture)
@@ -133,26 +162,44 @@ namespace FoxCompanion
                     break;
             }
 
+            if (Settings.options.settingFoxFurShader == true)
+            {
+                FoxVars.foxRenderer.material = FoxVars.furShaderMat;
+            }
+            else
+            {
+                FoxVars.foxRenderer.material = FoxVars.foxMaterial;
+            }
+
             FoxVars.foxTexture = new Texture2D(128, 64);
             //FoxVars.foxTexture.LoadImage(FoxVars.foxTexture, img);
-            ImageConversion.LoadImage(FoxVars.foxTexture, img);            
+            ImageConversion.LoadImage(FoxVars.foxTexture, img);
 
             FoxVars.foxRenderer.material.mainTexture = FoxVars.foxTexture;
+           
+
+            FoxVars.foxTexture.Apply();
             
             FoxVars.foxFurColor = new Color(settingFoxFurColorR, settingFoxFurColorG, settingFoxFurColorB, 1f);
+            FoxVars.foxAuroraEmissionColor = new Vector4(settingFoxAuroraColorR, settingFoxAuroraColorG, settingFoxAuroraColorB, 1f) * settingFoxAuroraIntensity;
             FoxVars.foxAuroraPatternColor = new Color(settingFoxAuroraColorR, settingFoxAuroraColorG, settingFoxAuroraColorB, 1f);
 
             // Fur color
             FoxVars.foxRenderer.material.SetColor("_Color", FoxVars.foxFurColor);
+            
 
             // Aurora pattern color
-            FoxVars.foxRendererAurora.material.SetColor("_EmissionColor", FoxVars.foxAuroraPatternColor);
-            FoxVars.foxTexture.Apply();
-
-            base.OnConfirm();
+            //FoxVars.foxRendererAurora.material.SetColor("_EmissionColor", FoxVars.foxAuroraPatternColor);
+            FoxVars.foxRendererAurora.material.SetColor("_EmissionColor", FoxVars.foxAuroraEmissionColor);
+            FoxVars.foxLightComp.color = FoxVars.foxAuroraPatternColor;
+            FoxVars.foxLightComp.intensity = foxAuroraLightIntensity;
+            FoxVars.foxLightComp.range = foxAuroraLightRange;
         }
 
-
+        protected override void OnConfirm()
+        {            
+            base.OnConfirm();
+        }
     }
 
     internal static class Settings
@@ -165,9 +212,18 @@ namespace FoxCompanion
             options = new SnowFoxSettingsMain();
             ///options.RefreshFields();
             options.AddToModSettings("Fox Settings");
-        }
+           
 
-        
+            FieldInfo[] fields = options.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
+
+            for (int i = 0; i < fields.Length; ++i)
+            {
+                if (fields[i].Name == nameof(options.foxCalories))
+                {
+                    options.SetFieldVisible(fields[i], false);
+                }
+            }
+        }
 
 
         public static KeyCode GetInputKeyFromString(int keyStringInt)

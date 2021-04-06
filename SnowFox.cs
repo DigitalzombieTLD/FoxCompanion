@@ -16,13 +16,15 @@ namespace FoxCompanion
         {
             // load fox asset
             FoxVars.foxload = AssetBundle.LoadFromFile("Mods\\snowfox.unity3d");
+    
 
             if (FoxVars.foxload == null)
             {
-                MelonLogger.Log("Failed to load AssetBundle!");
+                MelonLogger.Log("Failed to load AssetBundle (Fox)!");
                 return;
             }
-           
+
+
             MelonLogger.Log("Snow fox asset succesfully loaded");
 
             
@@ -35,21 +37,24 @@ namespace FoxCompanion
         {
             FoxVars.loadedScene = level;
             //MelonLogger.Log("Level initialized: " + level);
-
-            if (level >= 6 && FoxVars.fox == null)
+       
+            if (level >= 4 && FoxVars.fox == null)
             {               
                 SnowFoxInstanceMain.SnowFoxInstanceLoad();
+                
                 FoxVars.timeToSpawnStarted = false;
-                //MelonLogger.Log("After load and teleport");                
+                //MelonLogger.Log("After load and teleport");       
+                SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());
             }
 
-            if(level >= 6 && FoxVars.fox != null)
+            
+            if(level >= 4 && FoxVars.fox != null)
             {
                 FoxVars.timeToSpawnStarted = true;
-
+                
                 //MelonLogger.Log("After load and teleport");
             }
-
+            
         }
 
         public override void OnUpdate()
@@ -65,84 +70,44 @@ namespace FoxCompanion
                 {
                     FoxVars.foxSpawnTimer = FoxVars.timeToSpawn;
                     FoxVars.timeToSpawnStarted = false;
+                    
+                    //if(PlayerManager.m_TeleportPending() == false)
                     SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());
+                    SnowFoxPawprintsMain.initPaws();
                 }
             }
-
-
-            if (FoxVars.targetsphereActive == true)
-            {
-                int layerMask = 0;
-
-                layerMask|= 1 << 16; // NPC layer
-                layerMask |= 1 << 17; // gear layer
-
-                FoxVars.sphereTargethit = Physics.SphereCastAll(GameManager.GetMainCamera().transform.position, 1.0f, GameManager.GetMainCamera().transform.TransformDirection(Vector3.forward), 200f, layerMask); // spherecast to find a rabbit.
-
-                foreach (RaycastHit foo in FoxVars.sphereTargethit)
-                {
-                    if (foo.transform.gameObject.name.Contains("Rabbit") == true)
-                    {
-                        FoxVars.sphereLastHit = foo.transform.gameObject.transform;
-                        FoxVars.sphereLastHitObj = foo.transform.gameObject;
-                        FoxVars.sphereTargetObject = 2;
-                        //MelonLogger.Log("Target sphere: " + foo.transform.gameObject.name);
-                        FoxVars.whiteRabbit = foo.transform.gameObject;
-                        FoxVars.foundRabbit = true;
-                        FoxVars.targetsphere.transform.position = new Vector3(FoxVars.sphereLastHit.position.x, FoxVars.sphereLastHit.position.y + 0.2f, FoxVars.sphereLastHit.position.z);
-                        FoxVars.sphererend.material.color = new Color(0.8f, 0.1f, 0.1f, 0.4f);
-                    }
-                    else if (foo.transform.gameObject.name.Contains("GEAR_") == true)
-                    {
-                        FoxVars.sphereLastHit = foo.transform;
-                        FoxVars.sphereLastHitObj = foo.transform.gameObject;
-                        FoxVars.sphereTargetObject = 3;
-                        //MelonLogger.Log("Target sphere: " + foo.transform.gameObject.name);
-                        
-                        FoxVars.foundRabbit = false;
-                        FoxVars.foundItem = true;
-
-                        FoxVars.targetsphere.transform.position = new Vector3(FoxVars.sphereLastHit.position.x, FoxVars.sphereLastHit.position.y + 0.2f, FoxVars.sphereLastHit.position.z);
-                        FoxVars.sphererend.material.color = new Color(0.1f, 0.8f, 0.1f, 0.4f);
-                    }
-                    else if (foo.transform.gameObject.name.Contains("Fox") == true)
-                    {
-                        FoxVars.sphereLastHit = foo.transform.gameObject.transform;
-                        FoxVars.sphereLastHitObj = foo.transform.gameObject;
-                        FoxVars.sphereTargetObject = 1;
-                        //MelonLogger.Log("Target sphere: " + foo.transform.gameObject.name);
-                        
-                        FoxVars.foundRabbit = false;
-                        FoxVars.targetsphere.transform.position = new Vector3(FoxVars.sphereLastHit.position.x, FoxVars.sphereLastHit.position.y + 0.2f, FoxVars.sphereLastHit.position.z);
-                        FoxVars.sphererend.material.color = new Color(1.0f, 1.0f, 1.0f, 0.4f);
-                    }
-                    else
-                    {
-                        //MelonLogger.Log("Target sphere: " + foo.transform.gameObject.name);
-                    }                  
-                }
-
-                if (FoxVars.sphereLastHit!=null)
-                {
-                    FoxVars.targetsphere.transform.position = new Vector3(FoxVars.sphereLastHit.position.x, FoxVars.sphereLastHit.position.y + 0.2f, FoxVars.sphereLastHit.position.z);
-                }
-            }
-           
 
             // Do ALL THE STUFF
             if (FoxVars.foxactive == true && FoxVars.foxSpawned == true && FoxVars.fox != null)
             {
                 //MelonLogger.Log("doing something?");
-                FoxVars.idleRand = UnityEngine.Random.Range(1, 6); // make some randoms for changing through idle animations
+                FoxVars.idleRand = UnityEngine.Random.Range(1, 5); // make some randoms for changing through idle animations
+               
+
+                //FoxVars.randomTarget.position = new Vector3(FoxVars.foxTransform.position.x + FoxVars.randomTarget.position.x + UnityEngine.Random.insideUnitCircle.x * 3, FoxVars.foxTransform.position.y + FoxVars.randomTarget.position.y + UnityEngine.Random.insideUnitCircle.y * 3, 0);
 
                 // Update player, target and fox transforms               
                 FoxVars.playerTransform = GameManager.GetPlayerTransform();
-                FoxVars.foxTransform = FoxVars.fox.transform;                
-
+                FoxVars.foxTransform = FoxVars.fox.transform;
+                
                 SnowFoxInputsMain.SnowFoxInputsUpdate();
                 SnowFoxManageMovementMain.SnowFoxManageMovement();
-                SnowFoxAuroraMain.SnowFoxAurora();                    
+                SnowFoxAuroraMain.SnowFoxAurora();
+                SnowFoxTargetingMain.SnowFoxTargeting();
+
+                SnowFoxPawprintsMain.leavePaw(FoxVars.foxFLHandTrack.position, true, true);
+                SnowFoxPawprintsMain.leavePaw(FoxVars.foxFRHandTrack.position, true, false);
+                SnowFoxPawprintsMain.leavePaw(FoxVars.foxRLHandTrack.position, false, true);
+                SnowFoxPawprintsMain.leavePaw(FoxVars.foxRRHandTrack.position, false, false);
+            }          
+        }
+
+        public override void OnFixedUpdate()
+        {
+            if (FoxVars.foxactive == true && FoxVars.foxSpawned == true && FoxVars.fox != null)
+            {
+                
             }
-        } 
+        }
     }
 }

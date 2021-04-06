@@ -69,7 +69,7 @@ namespace FoxCompanion
                                 break;
                             case 5:
                                 FoxVars.foxanimator.Play("Dig", 0, 0f);
-                                break;
+                                break;                            
                             default:
                                 // Do nothing :)
                                 break;

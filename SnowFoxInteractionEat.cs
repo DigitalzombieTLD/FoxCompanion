@@ -6,15 +6,17 @@ using MelonLoader;
 
 namespace FoxCompanion
 {
-    public class SnowFoxFetchItemMain : MelonMod
+    public class SnowFoxInteractionEatMain : MonoBehaviour
     {
-        public static void SnowFoxFetchItem()
+
+        public static void InteractionEat()
         {
-            if ((FoxVars.foundItem == true) && FoxVars.targetTransform != null && Settings.options.foxCalories >= 300)
+            if ((FoxVars.foundFood == true) && FoxVars.targetTransform != null)
             {
                 FoxVars.rangeToTarget = Vector3.Distance(FoxVars.foxTransform.position, FoxVars.targetTransform.position);
+                GearItem food = FoxVars.targetHitObject.GetComponent<GearItem>();
 
-                if (FoxVars.rangeToTarget >= 1.0f)
+                if (FoxVars.rangeToTarget >= 0.7f)
                 {
                     FoxVars.foxState_Movement = "move";
                     FoxVars.foxanimator.SetBool("Stand", false);
@@ -30,6 +32,7 @@ namespace FoxCompanion
                     // Smooth turn animation
                     FoxVars.angleToTargetTreeTemp = Mathf.SmoothDamp(FoxVars.angleToTargetTreeTemp, FoxVars.angleToTargetTree, ref FoxVars.angleVelocity, 0.2f);
                     FoxVars.foxanimator.SetFloat("Horizontal", FoxVars.angleToTargetTreeTemp);
+
 
 
                     // Set speed in relation to distance to target
@@ -73,57 +76,47 @@ namespace FoxCompanion
                 }
                 else
                 {
-                    //MelonLogger.Log("Got the item! " + FoxVars.sphereLastHitObj.name);
+                    // MelonLogger.Log("Random: " + FoxVars.rabbidCatchRand);
+                    if(FoxVars.foxEating==false && FoxVars.foundFood == true && FoxVars.targetHitObject.activeSelf && FoxVars.targetHitObject != null)
+                    {                        
+                        FoxVars.foxEating = true;
 
-                    GameObject foxJaw;
-                    foxJaw = FoxVars.foxTransform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(2).gameObject;
-                    FoxVars.sphereLastHitObj.transform.SetParent(foxJaw.transform, true);
-                    FoxVars.targetHitObject.GetComponent<GearItem>().m_NonInteractive = false;
+                        FoxVars.foxanimator.SetFloat("Vertical", 0f);
+                        FoxVars.foxanimator.speed = 1.0f;
+                        MelonLogger.Log("Fox is eating ...");
+                        FoxVars.foxanimator.Play("Eat Start", -1, 0f);
+                        food.m_NonInteractive = true;
 
-
-                    FoxVars.sphereTargetObject = 0;
-
-                    // Turn item if lantern
-                    if (FoxVars.sphereLastHitObj.name.Contains("KeroseneLamp") == true)
-                    {
-                        //MelonLogger.Log("Got the lamp! " + FoxVars.sphereLastHitObj.name);
-                        FoxVars.lanternRigid = FoxVars.sphereLastHitObj.GetComponent<Rigidbody>();
-                        //FoxVars.lanternRigid.isKinematic = false;
-                        //FoxVars.lanternRigid.useGravity = false;
-                        //FoxVars.lanternRigid.detectCollisions = false;
-
-                        FoxVars.sphereLastHitObj.transform.localPosition = new Vector3(-0.3f, 0.3f, 0);
-                        //FoxVars.lanternRigid.MovePosition(new Vector3(-0.3f,0.3f,0f));
-                        
-                        //FoxVars.lanternRigid.constraints = RigidbodyConstraints.FreezeAll;
-                        //FoxVars.lanternRigid.centerOfMass = Vector3.zero;
-                        //FoxVars.lanternRigid.inertiaTensorRotation = Quaternion.identity;
-
-                        //FoxVars.lanternRigid.transform.localPosition = new Vector3(FoxVars.lanternX, FoxVars.lanternY, FoxVars.lanternZ);
-                        //FoxVars.lanternRigid.transform.localRotation = Quaternion.Euler(0, 0, 0.0f);
+                        FoxVars.eatTimer = 0;
+                        //FoxVars.foxanimator.SetBool("Action", true);
+                        //FoxVars.foxanimator.SetBool("Swim", false);
+                        //FoxVars.foxanimator.SetInteger("IDAction", 2);
                     }
                     else
                     {
-                        FoxVars.sphereLastHitObj.transform.localPosition = new Vector3(-0.05f, 0.05f, 0);
-                        //FoxVars.carryLantern.transform.localPosition = new Vector3(FoxVars.lanternX, FoxVars.lanternY, FoxVars.lanternZ); //new Vector3(0.01f, 0.05f, 0.523f);
-                        //FoxVars.carryLantern.transform.localRotation = Quaternion.Euler(0, 0, 0.0f);
+                        if(FoxVars.eatTimer<8f)
+                        {
+                            FoxVars.eatTimer += Time.deltaTime;
+                            
+                            
+                        }          
+                        else
+                        {
+                            FoxVars.foxanimator.Play("Eat End", -1, 0f);
+                            Settings.options.foxCalories = Settings.options.foxCalories + FoxVars.targetHitObject.GetComponent<FoodItem>().m_CaloriesRemaining;
+                            Destroy(FoxVars.targetHitObject);
+                            FoxVars.eatTimer = 0;
+                            FoxVars.foundFood = false;
+                            FoxVars.foxEating = false;
+                            //FoxVars.foxShouldFollowPlayer = false;
+                            FoxVars.foxShouldFollowSomething = false;
+                        }
                     }
-
-                    //child.transform.SetParent(null);
-                    FoxVars.foxShouldFollowPlayer = true;
-                    FoxVars.foxShouldFollowSomething = false;
                 }
+                    
             }
-            else if (Settings.options.foxCalories < 300)
-            {
-                FoxVars.foundItem = false;
-                FoxVars.foxShouldFollowSomething = false;
 
-                if (Settings.options.settingDisplayMsg == true)
-                {
-                    HUDMessage.AddMessage("[The fox is too hungry to obey]", false);
-                }
-            }
         }
+
     }
 }

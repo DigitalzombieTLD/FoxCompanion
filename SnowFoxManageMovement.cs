@@ -20,6 +20,11 @@ namespace FoxCompanion
                 if (FoxVars.foundItem == true && FoxVars.sphereTargetObject == 3)
                 {
                     SnowFoxFetchItemMain.SnowFoxFetchItem();
+                }             
+
+                if (FoxVars.foundFood == true && FoxVars.sphereTargetObject == 4)
+                {
+                    SnowFoxInteractionEatMain.InteractionEat();
                 }
             }
             else if (FoxVars.foxShouldFollowSomething == false && FoxVars.foxShouldFollowPlayer == true)
