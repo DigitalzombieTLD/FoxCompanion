@@ -16,6 +16,13 @@ namespace FoxCompanion
         public static AssetBundle foxload;
         public static Rigidbody foxRigid;
         public static CharacterController foxController;
+        public static CorvoPathFinder foxPathfinder;
+		public static Vector3[] foxWaypoints;
+		public static Vector3 PFTarget;
+		public static float rangeToPFTarget;
+		public static float pathTimer = 0;
+		public static string foxName = "the fox";
+		public static bool foundPath = false;
 
         public static GameObject ringasset_red;
         public static GameObject ringred;

@@ -26,9 +26,12 @@ namespace FoxCompanion
         [Choice("During aurora", "Always", "Never")]
         public int settingAuroraFox = 0;
 
-        
+		[Name("Chance to catch")]
+		[Description("Chance to catch rabbits in percent")]
+		[Slider(0, 100)]
+		public float chanceToCatch = 50;
 
-        [Section("Texture")]
+		[Section("Texture")]
 
         [Name("Fox texture")]
         [Description("Change the look of your fox")]
@@ -88,10 +91,29 @@ namespace FoxCompanion
         [Slider(0, 3f)]
         public float foxAuroraLightRange = 0.5f;
 
+		     
 
-        [Section("Controls")]
+		[Section("Keybinds")]
 
-        [Name("Teleport")]
+		[Name("Teleport")]
+		[Description("Teleports fox to player, useful if fox gets stuck or lost")]
+		public UnityEngine.KeyCode inputButtonTeleport = KeyCode.P;
+
+		[Name("Follow player / stop (toggle)")]
+		[Description("Toggles following the player and stopping (stopping works for follow/goto target too")]
+		public UnityEngine.KeyCode inputButtonFollow = KeyCode.V;
+
+		/*
+		[Name("Follow target / Goto target")]
+		[Description("Order to follow/goto target. Hold key down to display crosshair, release to issue command to fox")]
+		public UnityEngine.KeyCode inputButtonGoTo = KeyCode.LeftAlt;*/
+
+		[Name("Enable command mode")]
+		[Description("Aim at an object/animal while mode is enabled. Execute on left mouse button, cancel on right mouse button.")]
+		public UnityEngine.KeyCode inputButtonCommandMode = KeyCode.B;
+
+		/*
+		[Name("Teleport")]
         [Description("Teleports fox to player, useful if fox gets stuck or lost")]
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
         public int buttonTeleport = 12;
@@ -101,22 +123,18 @@ namespace FoxCompanion
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
         public int buttonFollowPlayer = 9;
 
-        /*[Name("Follow target / Goto target")]
+        [Name("Follow target / Goto target")]
         [Description("Order to follow/goto target. Hold key down to display crosshair, release to issue command to fox")]
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
-        public int buttonFollowTarget = 10;*/
+        public int buttonFollowTarget = 10;
 
         [Name("Enable command mode")]
         [Description("Aim at an object/animal while mode is enabled. Execute on left mouse button, cancel on right mouse button.")]
         [Choice("B", "C", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "T", "U", "V", "X", "Y", "Z", "Insert", "Home", "End", "PageUp", "PageDown", "Pause", "Clear")]
-        public int buttonCommandMode = 0;
+        public int buttonCommandMode = 0;*/
 
-        [Name("Fox Calories")]
-        [Description("Please ignore")]
-        [Slider(0, 10000)]
-        public float foxCalories = 1500;
 
-        protected override void OnChange(FieldInfo field, object oldValue, object newValue)
+		protected override void OnChange(FieldInfo field, object oldValue, object newValue)
         {           
             GameManager.GetCameraEffects().DepthOfFieldTurnOff(true);
             GameManager.GetCameraEffects().VignettingEnable(false);
@@ -211,18 +229,9 @@ namespace FoxCompanion
         {
             options = new SnowFoxSettingsMain();
             ///options.RefreshFields();
-            options.AddToModSettings("Fox Settings");
-           
+            options.AddToModSettings("Fox Settings");       
 
-            FieldInfo[] fields = options.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
-
-            for (int i = 0; i < fields.Length; ++i)
-            {
-                if (fields[i].Name == nameof(options.foxCalories))
-                {
-                    options.SetFieldVisible(fields[i], false);
-                }
-            }
+            
         }
 
 

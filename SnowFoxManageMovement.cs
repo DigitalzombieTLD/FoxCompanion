@@ -19,8 +19,38 @@ namespace FoxCompanion
 
                 if (FoxVars.foundItem == true && FoxVars.sphereTargetObject == 3)
                 {
-                    SnowFoxFetchItemMain.SnowFoxFetchItem();
-                }             
+                    //SnowFoxFetchItemMain.SnowFoxFetchItem();
+
+                  /*  if (!FoxVars.foundPath && !FoxVars.foxPathfinder.havePath())
+                    {
+                        FoxVars.foundPath = true;
+                       
+                        FoxVars.foxPathfinder.findPath(FoxVars.targetTransform.position, FoxVars.fox.transform.position);
+
+						//FoxVars.foxWaypoints = FoxVars.foxPathfinder.getPath();
+
+						//foreach (Vector3 singlePoint in FoxVars.foxWaypoints)
+						//{
+						//	MelonLogger.Msg("Waypoint: " + singlePoint.x + " / " + singlePoint.y + " / " + singlePoint.z);
+						//	GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+						//	sphere.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+						//	sphere.transform.position = singlePoint;
+						//}
+						
+					}*/
+					SnowFoxFetchItemMain.SnowFoxFetchItem();
+					
+					/*
+					if (FoxVars.pathTimer >= 6f)
+					{
+						SnowFoxFetchItemMain.SnowFoxFetchItem();
+					}
+					else 
+					{
+						FoxVars.pathTimer += Time.deltaTime;
+					}		*/
+
+				}             
 
                 if (FoxVars.foundFood == true && FoxVars.sphereTargetObject == 4)
                 {

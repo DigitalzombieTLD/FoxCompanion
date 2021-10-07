@@ -14,18 +14,23 @@ namespace FoxCompanion
     {        
         public override void OnApplicationStart()
         {
-            // load fox asset
-            FoxVars.foxload = AssetBundle.LoadFromFile("Mods\\snowfox.unity3d");
+			// Pathfinding components
+			ClassInjector.RegisterTypeInIl2Cpp<CorvoPathFinder>();
+			ClassInjector.RegisterTypeInIl2Cpp<UnitPathfinder>();
+			
+
+			// load fox asset
+			FoxVars.foxload = AssetBundle.LoadFromFile("Mods\\snowfox.unity3d");
     
 
             if (FoxVars.foxload == null)
             {
-                MelonLogger.Log("Failed to load AssetBundle (Fox)!");
+                MelonLogger.Msg("Failed to load AssetBundle (Fox)!");
                 return;
             }
 
 
-            MelonLogger.Log("Snow fox asset succesfully loaded");
+            MelonLogger.Msg("Snow fox asset succesfully loaded");
 
             
 
@@ -33,26 +38,27 @@ namespace FoxCompanion
             FoxCompanion.Settings.OnLoad();
         }
 
-        public override void OnLevelWasInitialized(int level)
+        public override void OnSceneWasInitialized(int level, string sceneName)
         {
             FoxVars.loadedScene = level;
-            //MelonLogger.Log("Level initialized: " + level);
+            //MelonLogger.Msg("Level initialized: " + level);
        
             if (level >= 4 && FoxVars.fox == null)
             {               
                 SnowFoxInstanceMain.SnowFoxInstanceLoad();
                 
                 FoxVars.timeToSpawnStarted = false;
-                //MelonLogger.Log("After load and teleport");       
+                //MelonLogger.Msg("After load and teleport");       
                 SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());
-            }
+
+			}
 
             
             if(level >= 4 && FoxVars.fox != null)
             {
                 FoxVars.timeToSpawnStarted = true;
                 
-                //MelonLogger.Log("After load and teleport");
+                //MelonLogger.Msg("After load and teleport");
             }
             
         }
@@ -73,14 +79,14 @@ namespace FoxCompanion
                     
                     //if(PlayerManager.m_TeleportPending() == false)
                     SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());
-                    SnowFoxPawprintsMain.initPaws();
+                    SnowFoxPawPrintsMain.initPaws();
                 }
             }
 
             // Do ALL THE STUFF
             if (FoxVars.foxactive == true && FoxVars.foxSpawned == true && FoxVars.fox != null)
             {
-                //MelonLogger.Log("doing something?");
+                //MelonLogger.Msg("doing something?");
                 FoxVars.idleRand = UnityEngine.Random.Range(1, 5); // make some randoms for changing through idle animations
                
 
@@ -95,10 +101,10 @@ namespace FoxCompanion
                 SnowFoxAuroraMain.SnowFoxAurora();
                 SnowFoxTargetingMain.SnowFoxTargeting();
 
-                SnowFoxPawprintsMain.leavePaw(FoxVars.foxFLHandTrack.position, true, true);
-                SnowFoxPawprintsMain.leavePaw(FoxVars.foxFRHandTrack.position, true, false);
-                SnowFoxPawprintsMain.leavePaw(FoxVars.foxRLHandTrack.position, false, true);
-                SnowFoxPawprintsMain.leavePaw(FoxVars.foxRRHandTrack.position, false, false);
+                SnowFoxPawPrintsMain.leavePaw(FoxVars.foxFLHandTrack.position, true, true);
+                SnowFoxPawPrintsMain.leavePaw(FoxVars.foxFRHandTrack.position, true, false);
+                SnowFoxPawPrintsMain.leavePaw(FoxVars.foxRLHandTrack.position, false, true);
+                SnowFoxPawPrintsMain.leavePaw(FoxVars.foxRRHandTrack.position, false, false);
             }          
         }
 

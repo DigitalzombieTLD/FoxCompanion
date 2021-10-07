@@ -20,8 +20,8 @@ namespace FoxCompanion
 
 
 
-            //MelonLogger.Log("Tepelort Pos [" + FoxVars.fox.transform.position.x + "][" + FoxVars.fox.transform.position.y + "][" + FoxVars.fox.transform.position.z + "]");
-            MelonLogger.Log("Teleport fox to Player");
+            //MelonLogger.Msg("Tepelort Pos [" + FoxVars.fox.transform.position.x + "][" + FoxVars.fox.transform.position.y + "][" + FoxVars.fox.transform.position.z + "]");
+            MelonLogger.Msg("Teleport fox to Player");
         }
     }
 }

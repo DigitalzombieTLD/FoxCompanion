@@ -53,10 +53,10 @@ namespace FoxCompanion
 
                             FoxVars.foxJumping = true;
                             FoxVars.foxanimator.Play("Jump Forward (Single)", FoxVars.foxanimator.GetLayerIndex("Fox"), 0f);
-                            MelonLogger.Log("Jump!");
+                            MelonLogger.Msg("Jump!");
 
                             FoxVars.foundBed = false;
-                            MelonLogger.Log("Lying on bed!");
+                            MelonLogger.Msg("Lying on bed!");
                             FoxVars.foxShouldFollowSomething = false;
                             FoxVars.foxShouldFollowPlayer = false;
                             FoxVars.sphereTargetObject = 0;                     

@@ -53,9 +53,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>G:\Games\Steam\steamapps\common\TheLongDark\MelonLoader\Managed\Il2CppSystem.Core.dll</HintPath>
     </Reference>
-    <Reference Include="MelonLoader.ModHandler, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>G:\Games\Steam\steamapps\common\TheLongDark\MelonLoader\MelonLoader.ModHandler.dll</HintPath>
+    <Reference Include="MelonLoader">
+      <HintPath>G:\Games\Steam\steamapps\common\TheLongDark\MelonLoader\MelonLoader.dll</HintPath>
     </Reference>
     <Reference Include="ModSettings">
       <HintPath>G:\Games\Steam\steamapps\common\TheLongDark\Mods\ModSettings.dll</HintPath>
@@ -98,6 +97,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PathFinder\CorvoPathFinder.cs" />
+    <Compile Include="PathFinder\UnitPathfinder.cs" />
     <Compile Include="SnowFoxInteractionEat.cs" />
     <Compile Include="SnowFoxPawprints.cs" />
     <Compile Include="SnowFoxInteractionBed.cs" />

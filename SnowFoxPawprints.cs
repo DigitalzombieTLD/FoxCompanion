@@ -7,13 +7,13 @@ using Harmony;
 
 namespace FoxCompanion
 {
-    public class SnowFoxPawprintsMain : MelonMod
+    public class SnowFoxPawPrintsMain : MelonMod
     {
         public static FootstepTrail foxTrail;
         public static int m_LastFootstepTick;
         public static bool m_LastFootstepFront;
         public static bool m_LastFootstepLeft;
-        public static int m_NextRecentFootPrintIndex = 0;
+        public static int m_NextRecentFootPrintsIndex = 0;
         public static Vector3[] m_RecentFootPrints = new Vector3[8];
        
 
@@ -24,17 +24,17 @@ namespace FoxCompanion
             //FoxVars.foxRLHandTrack = FoxVars.foxTransform.GetChild(4).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject.transform; // L Track
             //FoxVars.foxRRHandTrack = FoxVars.foxTransform.GetChild(4).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject.transform; // R Track
 
-            //MelonLogger.Log("GetChild(0): " + GameObject.Find("L Foot").name);
+            //print("GetChild(0): " + GameObject.Find("L Foot").name);
             FoxVars.foxFLHandTrack = GameObject.Find("L Hand").transform;
             FoxVars.foxFRHandTrack = GameObject.Find("R Hand").transform;
             FoxVars.foxRLHandTrack = GameObject.Find("L Foot").transform;
             FoxVars.foxRRHandTrack = GameObject.Find("R Foot").transform;
 
-            FootstepTrailType trailType = FootstepTrailType.AiTransient;
-            SnowImprintType imprintType = SnowImprintType.WolfFootprint;  //WolfFootprint RabbitFootprint
+            //FootstepTrailType trailType = FootstepTrailType.AiTransient;
+            //SnowImprintType imprintType = SnowImprintType.WolfFootprint;  //WolfFootprint RabbitFootprint
 
-            foxTrail = new FootstepTrail(trailType, imprintType);
-            GameManager.GetFootstepTrailManager().AddFootstepTrail(foxTrail, true);
+            //foxTrail = new FootstepTrail(trailType, imprintType);
+            //GameManager.GetFootstepTrailManager().AddFootstepTrail(foxTrail, true);
         }
 
         public static void leavePaw(Vector3 position, bool isFront, bool isLeft)
@@ -42,7 +42,7 @@ namespace FoxCompanion
             //Vector3 position = FoxVars.foxFLHandTrack.position;
             
 
-
+			/*
             float num = 0.5f;
             position.y += num;
             RaycastHit raycastHit;
@@ -60,17 +60,18 @@ namespace FoxCompanion
                 m_LastFootstepTick = Time.frameCount;
                 m_LastFootstepFront = isFront;
                 m_LastFootstepLeft = isLeft;
-                m_RecentFootPrints[m_NextRecentFootPrintIndex % 8] = raycastHit.point;
-                m_NextRecentFootPrintIndex++;
+                m_RecentFootPrints[m_NextRecentFootPrintsIndex % 8] = raycastHit.point;
+                m_NextRecentFootPrintsIndex++;
                 foxTrail.AddFootstep(position, raycastHit.point, raycastHit.normal, FoxVars.foxTransform.rotation.eulerAngles.y, isLeft, (!isFront) ? 1 : 0, 0f);
             }
+			*/
         }
 
         public static bool PositionOverlapsRecentFootprints(Vector3 pos)
         {
             float num = 0.22f;
            
-            int num2 = Mathf.Min(m_NextRecentFootPrintIndex, 8);
+            int num2 = Mathf.Min(m_NextRecentFootPrintsIndex, 8);
             for (int i = 0; i < num2; i++)
             {
                 float num3 = Vector3.Distance(pos, m_RecentFootPrints[i]);
@@ -91,7 +92,7 @@ namespace FoxCompanion
                 {
                     SnowFoxInstanceMain.SnowFoxInstanceLoad();
                     FoxVars.timeToSpawnStarted = false;
-                    //MelonLogger.Log("After load and teleport");       
+                    //print("After load and teleport");       
                     SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());
                 }
 
@@ -99,7 +100,7 @@ namespace FoxCompanion
                 {
                     //FoxVars.timeToSpawnStarted = true;
                     SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());
-                    //MelonLogger.Log("After load and teleport");
+                    //print("After load and teleport");
                 }
             }
         }*/
@@ -113,7 +114,7 @@ namespace FoxCompanion
                 {
                     SnowFoxInstanceMain.SnowFoxInstanceLoad();
                     FoxVars.timeToSpawnStarted = false;
-                    //MelonLogger.Log("After load and teleport");       
+                    //print("After load and teleport");       
                     SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());
                 }
 
@@ -121,7 +122,7 @@ namespace FoxCompanion
                 {
                     //FoxVars.timeToSpawnStarted = true;
                     SnowFoxTeleportFoxMain.TeleportFoxToTarget(GameManager.GetPlayerTransform());
-                    //MelonLogger.Log("After load and teleport");
+                    //print("After load and teleport");
                 }
             }
         }*/

@@ -76,14 +76,14 @@ namespace FoxCompanion
                 }
                 else
                 {
-                    // MelonLogger.Log("Random: " + FoxVars.rabbidCatchRand);
+                    // MelonLogger.Msg("Random: " + FoxVars.rabbidCatchRand);
                     if(FoxVars.foxEating==false && FoxVars.foundFood == true && FoxVars.targetHitObject.activeSelf && FoxVars.targetHitObject != null)
                     {                        
                         FoxVars.foxEating = true;
 
                         FoxVars.foxanimator.SetFloat("Vertical", 0f);
                         FoxVars.foxanimator.speed = 1.0f;
-                        MelonLogger.Log("Fox is eating ...");
+                        MelonLogger.Msg("Fox is eating ...");
                         FoxVars.foxanimator.Play("Eat Start", -1, 0f);
                         food.m_NonInteractive = true;
 
@@ -103,7 +103,7 @@ namespace FoxCompanion
                         else
                         {
                             FoxVars.foxanimator.Play("Eat End", -1, 0f);
-                            Settings.options.foxCalories = Settings.options.foxCalories + FoxVars.targetHitObject.GetComponent<FoodItem>().m_CaloriesRemaining;
+                            
                             Destroy(FoxVars.targetHitObject);
                             FoxVars.eatTimer = 0;
                             FoxVars.foundFood = false;

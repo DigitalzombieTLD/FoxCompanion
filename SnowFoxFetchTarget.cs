@@ -10,7 +10,7 @@ namespace FoxCompanion
     {
         public static void SnowFoxFetchTarget()
         {
-            if ((FoxVars.foundRabbit == true) && FoxVars.targetTransform != null && Settings.options.foxCalories >= 300)
+            if ((FoxVars.foundRabbit == true) && FoxVars.targetTransform != null)
             {
                 FoxVars.rangeToTarget = Vector3.Distance(FoxVars.foxTransform.position, FoxVars.targetTransform.position);
 
@@ -68,8 +68,8 @@ namespace FoxCompanion
                         {  
                             FoxVars.foxJumping = true;
                             FoxVars.foxanimator.Play("Jump Forward (Single)", FoxVars.foxanimator.GetLayerIndex("Fox"), 0f);
-                            MelonLogger.Log("Jump!");
-                            FoxVars.rabbidCatchRand = UnityEngine.Random.Range(0, 150);
+                            MelonLogger.Msg("Jump!");
+                            FoxVars.rabbidCatchRand = UnityEngine.Random.Range(0, 100);
                         }
                     }
                     
@@ -82,13 +82,13 @@ namespace FoxCompanion
                 }
                 else
                 {
-                    // MelonLogger.Log("Random: " + FoxVars.rabbidCatchRand);
+                    // MelonLogger.Msg("Random: " + FoxVars.rabbidCatchRand);
                     //FoxVars.rabbidCatchRand <= Settings.options.foxCatchChance 
                     
-                    if (FoxVars.rabbidCatchRand <= Settings.options.foxCalories/10)
+                    if (FoxVars.rabbidCatchRand <= Settings.options.chanceToCatch)
                     {
 
-                        MelonLogger.Log("Killed the rabbit!");
+                        MelonLogger.Msg("Killed the rabbit!");
                         FoxVars.foundRabbit = false;
                         FoxVars.foxJumping = false;
                         //FoxVars.foxState_Movement = "idle";
@@ -107,7 +107,7 @@ namespace FoxCompanion
                     }
                     else
                     {
-                        MelonLogger.Log("Rabbit evaded!");
+                        MelonLogger.Msg("Rabbit evaded!");
                         FoxVars.rabbidEvaded = true;
                         FoxVars.foundRabbit = false;
                         FoxVars.foxJumping = false;
@@ -122,17 +122,7 @@ namespace FoxCompanion
                         FoxVars.targetHitObject.GetComponentInChildren<BaseAi>().EnterFlee();
                     }
                 }
-            }
-            else if(Settings.options.foxCalories < 300)
-            {
-                FoxVars.foundRabbit = false;
-                FoxVars.foxShouldFollowSomething = false;
-
-                if (Settings.options.settingDisplayMsg == true)
-                {
-                    HUDMessage.AddMessage("[The fox is too hungry to obey]", false);
-                }
-            }
+            }          
 
         }
     }

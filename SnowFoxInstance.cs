@@ -11,40 +11,45 @@ namespace FoxCompanion
         public static void SnowFoxInstanceLoad()
         {
             // Instantiate fox in scene
-                MelonLogger.Log("Loading fox ...");
+            MelonLogger.Msg("Loading ...");
 
             // load fox asset in game
             FoxVars.foxasset = FoxVars.foxload.LoadAsset<GameObject>("Fox_Snow");
-            //FoxVars.foxasset = FoxVars.foxload.LoadAsset<GameObject>("Fox_New");
-            //MelonLogger.Log("Asset: " + FoxVars.foxasset);
-
-            FoxVars.fox = GameObject.Instantiate(FoxVars.foxasset);
-                //MelonLogger.Log("Instance: " + FoxVars.fox);
-                FoxVars.foxanimator = FoxVars.fox.GetComponentInChildren<Animator>();
-                FoxVars.fox.AddComponent<CharacterController>();
-                FoxVars.foxController = FoxVars.fox.GetComponent<CharacterController>();
-
-            FoxVars.ringasset_red = FoxVars.foxload.LoadAsset<GameObject>("ring_red");
+			//FoxVars.foxasset = FoxVars.foxload.LoadAsset<GameObject>("Fox_New");
+			//MelonLogger.Msg("Asset: " + FoxVars.foxasset);
+			
+			FoxVars.fox = GameObject.Instantiate(FoxVars.foxasset);
+			//MelonLogger.Msg("Instance: " + FoxVars.fox);
+			FoxVars.foxanimator = FoxVars.fox.GetComponentInChildren<Animator>();
+            FoxVars.fox.AddComponent<CharacterController>();
+            FoxVars.foxController = FoxVars.fox.GetComponent<CharacterController>();
+			
+			// Pathfinder
+			//FoxVars.fox.AddComponent<CorvoPathFinder>();
+			//FoxVars.fox.AddComponent<UnitPathfinder>();
+			//FoxVars.foxPathfinder = FoxVars.fox.GetComponent<CorvoPathFinder>();
+			
+			FoxVars.ringasset_red = FoxVars.foxload.LoadAsset<GameObject>("ring_red");
             FoxVars.ringred = GameObject.Instantiate(FoxVars.ringasset_red);
             FoxVars.ringred.transform.position = new Vector3(-1000, -1000, -1000);
             DontDestroyOnLoad(FoxVars.ringred);
-
-            FoxVars.ringasset_green = FoxVars.foxload.LoadAsset<GameObject>("ring_green");
+			
+			FoxVars.ringasset_green = FoxVars.foxload.LoadAsset<GameObject>("ring_green");
             FoxVars.ringgreen = GameObject.Instantiate(FoxVars.ringasset_green);
             FoxVars.ringgreen.transform.position = new Vector3(-1000, -1000, -1000);
             DontDestroyOnLoad(FoxVars.ringgreen);
-
-            FoxVars.ringasset_white = FoxVars.foxload.LoadAsset<GameObject>("ring_white");
+			
+			FoxVars.ringasset_white = FoxVars.foxload.LoadAsset<GameObject>("ring_white");
             FoxVars.ringwhite = GameObject.Instantiate(FoxVars.ringasset_white);
             FoxVars.ringwhite.transform.position = new Vector3(-1000, -1000, -1000);
             DontDestroyOnLoad(FoxVars.ringwhite);
-
-            FoxVars.ringasset_blue = FoxVars.foxload.LoadAsset<GameObject>("ring_blue");
+	
+			FoxVars.ringasset_blue = FoxVars.foxload.LoadAsset<GameObject>("ring_blue");
             FoxVars.ringblue = GameObject.Instantiate(FoxVars.ringasset_blue);
             FoxVars.ringblue.transform.position = new Vector3(-1000, -1000, -1000);
             DontDestroyOnLoad(FoxVars.ringblue);
-
-            /*FoxVars.twinkleasset_red = FoxVars.foxload.LoadAsset<GameObject>("twinkle_red");
+	
+			/*FoxVars.twinkleasset_red = FoxVars.foxload.LoadAsset<GameObject>("twinkle_red");
             FoxVars.twinklered = GameObject.Instantiate(FoxVars.twinkleasset_red);
             FoxVars.twinklered.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
@@ -67,22 +72,22 @@ namespace FoxCompanion
             FoxVars.twinklered.transform.position = new Vector3(-1000, -1000, -1000);
             FoxVars.twinklegreen.transform.position = new Vector3(-1000, -1000, -1000);*/
 
-            /*DontDestroyOnLoad(FoxVars.twinklered);
+			/*DontDestroyOnLoad(FoxVars.twinklered);
             DontDestroyOnLoad(FoxVars.twinkleblue);
             DontDestroyOnLoad(FoxVars.twinklewhite);
             DontDestroyOnLoad(FoxVars.twinklegreen);*/
 
-            MelonLogger.Log("Loading shader ...");
-            
+			MelonLogger.Msg("Loading shader ...");
+	
 
-            // Fur shader
-            FoxVars.furShaderAsset = FoxVars.foxload.LoadAsset<GameObject>("furShaderObj3");
+			// Fur shader
+			FoxVars.furShaderAsset = FoxVars.foxload.LoadAsset<GameObject>("furShaderObj3");
             FoxVars.furShaderObj = GameObject.Instantiate(FoxVars.furShaderAsset);
             FoxVars.furShaderMat = FoxVars.furShaderObj.GetComponent<SkinnedMeshRenderer>().material;
             DontDestroyOnLoad(FoxVars.furShaderObj);
             DontDestroyOnLoad(FoxVars.furShaderMat);
 
-            FoxVars.fox.layer = 14; // 16 = NPC
+			FoxVars.fox.layer = 14; // 16 = NPC
 
             // Fox controller settings
                 FoxVars.foxController.center = new Vector3(0, 0.40f, 0.21f); //(0, 0.40f, 0.21f);
@@ -93,11 +98,10 @@ namespace FoxCompanion
                 FoxVars.foxController.skinWidth = 0.12f; //0.08
                 FoxVars.foxController.slopeLimit = 80;
                 FoxVars.foxController.stepOffset = 0.05f; //0.3
+	
+			//FoxVars.foxanimator.updateMode = AnimatorUpdateMode.UnscaledTime;
 
-
-                //FoxVars.foxanimator.updateMode = AnimatorUpdateMode.UnscaledTime;
-
-                FoxVars.foxSpawnTimer = 0f;
+			FoxVars.foxSpawnTimer = 0f;
                 
                 // Get aurora skinned mesh
                 GameObject aurora = FoxVars.fox.transform.Find("Magic").gameObject;
@@ -112,10 +116,19 @@ namespace FoxCompanion
                 FoxVars.foxRenderer.receiveShadows = true;
                 FoxVars.foxRenderer.castShadows = true;
 
-                
+
+			// Load name file
+			if (File.Exists("Mods\\FoxCompanionName.txt"))
+			{
+				// Open the stream and read it back.
+				using (StreamReader sr = File.OpenText("Mods\\FoxCompanionName.txt"))
+				{
+					FoxVars.foxName = sr.ReadLine();
+				}
+			}
 
 
-            if (Settings.options.settingFoxFurShader == true)
+			if (Settings.options.settingFoxFurShader == true)
             {
                 FoxVars.foxRenderer.material = FoxVars.furShaderMat;
 
@@ -204,23 +217,25 @@ namespace FoxCompanion
 
                 if (Settings.options.settingAutoFollow == true)
                 {
-                    MelonLogger.Log("Autofollow enabled");
+                    MelonLogger.Msg("Autofollow enabled");
                     FoxVars.foxShouldFollowSomething = false;
                     FoxVars.foxShouldFollowPlayer = true;
                 }
                 else
                 {
-                    MelonLogger.Log("Autofollow disabled");
+                    MelonLogger.Msg("Autofollow disabled");
                     FoxVars.foxShouldFollowSomething = false;
                     FoxVars.foxShouldFollowPlayer = false;
                 }
 
-                MelonLogger.Log("Snow fox is instantiated");
+                MelonLogger.Msg("Snow fox is instantiated");
                 FoxVars.foxSpawned = true;
                 FoxVars.foxactive = true;
                 FoxVars.isLevelLoaded = true;
                 DontDestroyOnLoad(FoxVars.fox);
-                
-        }
+
+			
+
+		}
     }
 }

@@ -21,7 +21,7 @@ namespace FoxCompanion
                 FoxVars.foxTransform.rotation = Quaternion.Slerp(FoxVars.foxTransform.rotation, slopeRotation * FoxVars.foxTransform.rotation, 1 * Time.deltaTime);
 
 
-                //MelonLogger.Log("Align fox to ground: " + hit.transform.name);
+                //MelonLogger.Msg("Align fox to ground: " + hit.transform.name);
             }
             
         }
