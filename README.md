@@ -1,4 +1,4 @@
-The Long Dark - Snowfox companion mod - v0.9.9 by Digitalzombie
+The Long Dark - Snowfox companion mod - v0.9.9.5 "Fury, Then Silence" by Digitalzombie
 ===============================================================
 
 How to install:
@@ -9,12 +9,12 @@ This creates a new folder named "Mods" in your TLD folder.
 
 2. Extract everything from the ZIP file to your new TLD\Mods folder (overwrite old files)
 
-3. Players who are upgrading to the latest version from an earlier version need to delete the "FoxCompanion.json" file from their mod folder first, otherwise the mod will not appear in game.
+3. Delete any existing "FoxCompanion.json" file in your TLD\Mods folder!!!
 
 4. Download and install "ModSettings"-Mod by zeobviouslyfakeacc:
 https://github.com/zeobviouslyfakeacc/ModSettings/releases/latest
 
-5. Start the game!  
+5. Start the game! 
 
 =============================================
 =============================================
@@ -48,28 +48,17 @@ You can use any picture editing program.
 
 3. Change and apply the texture in the settings menu.
 
+
 Hunger / hunting system
 ===============
-The fox got it's own calorie counter now. There are 5 hunger levels, based on the calorie count.
+The fox can still hunt. It never gets hungry anymore though. You can still feed it for immersion.
 
-0-150 - Starving
-151-600 - Very hungry
-601-1000 - A bit hungry
-1001-2000 - Not hungry
-2001-3000 - Overfed
 
-When fox is starving or very hungry it won't obey the commands to hunt or fetch items. Chance to catch
-rabbits is dependent on the calorie counter too. Above 1500 calories gives you a 100% chance to catch.
-750 calories equals 50% chance.
-
-There are no other negative effects to starvation. The counter won't go below 0.
-
-Calorie counter decreases at the same rate as the players counter. So running and activities affects the fox too.
 =============================================
 =============================================
 
 BUGS ARE TO BE EXPECTED!!!
-==========================
+===========================
 
 Keep yourself up to date on the progress on:
 https://www.youtube.com/channel/UCYRu_uDOzozbXIXKGrznHxQ
@@ -77,11 +66,24 @@ https://www.youtube.com/channel/UCYRu_uDOzozbXIXKGrznHxQ
 Or on the TLD reddit:
 https://www.reddit.com/r/thelongdark/
 
+Or on Discord:
+https://discord.gg/AqpW9TjUfr
+
 =============================================
 =============================================
 
 Changelog:
 ==========
+0.9.9.5 "Fury, Then Silence"
+- Fixed compatibility with the newest game update 1.95 "Fury, Then Silence"
+- Took out fox snow pawprints until I can fix the "player has wolf tracks"-bugfixes
+- Took out the hunger system of the fox. It can still hunt and eat, but you don't *need* to feed it anymore.
+- Changed the input settings menu. You can now rebind to about every button, with way more comfort
+- Changed the onscreen messages around. Everything should be a bit quicker and snappier now. You can still deactivate the messages in the options
+- Added the a "naming" feature. You can edit the "FoxCompanionName.txt" file and rename your fox. The name will be displayed in the onscreen messages and in target mode
+- Fox should now be able to eat way more food. Cooked meat/fish, some snacks and out of some cans (if they are open). May have missed a few items, will add them later
+
+
 0.9.9
 - Hunger / eating system
 - pawprints in the snow
@@ -102,6 +104,7 @@ Changelog:
 - updated assetbundle to new unity version
 - made the targetting area smaller. target circle will stay at target if nothing else is targetted
 
+
 0.9.8
 - Working on newest update
 - New targeting system for hunting / fetching
@@ -112,6 +115,7 @@ Changelog:
 - Added option to disable mod. Will remove the fox on scene transition
 - Added option for aurora effects: always enabled, never enabled, only during aurora
 - Other small bugfixes 
+
 
 0.9.5
 - Refined the animation speeds a bit and removed the settings from the menu
